@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FairPhone B.V.
+ * Copyright (C) 2026 FairPhone B.V.
  *
  * SPDX-FileCopyrightText: 2025. FairPhone B.V.
  *
@@ -115,6 +115,11 @@ val Mock_Profile = launcherProfile {
 }
 
 fun LauncherProfile.colors() = LauncherColors(
-        rightColor = bgColor2,
-        leftColor = bgColor1
-    )
+    rightColor = bgColor2,
+    leftColor = bgColor1,
+)
+
+fun CreateLauncherProfile.colors() = LauncherColors(
+    rightColor = bgColor2,
+    leftColor = bgColor1,
+)

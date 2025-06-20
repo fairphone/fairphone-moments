@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FairPhone B.V.
+ * Copyright (C) 2026 FairPhone B.V.
  *
  * SPDX-FileCopyrightText: 2025. FairPhone B.V.
  *
@@ -134,7 +134,7 @@ fun ChooseBackgroundScreen(
                     count = colors.size,
                     contentType = { index -> colors[index] }
                 ) { index ->
-                    val color = colors[index]
+                    val launcherColors = colors[index]
                     Box(
                         modifier = Modifier
                             .clip(RoundedCornerShape(32.dp))
@@ -147,7 +147,7 @@ fun ChooseBackgroundScreen(
                             .height(446.dp)
                     ) {
                         ChooseBackgroundExample(
-                            endColor = Color(color.rightColor),
+                            launcherColors = launcherColors,
                             modifier = Modifier.fillMaxSize(),
                             onClick = {
                                 scrollToIndex = index

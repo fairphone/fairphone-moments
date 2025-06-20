@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FairPhone B.V.
+ * Copyright (C) 2026 FairPhone B.V.
  *
  * SPDX-FileCopyrightText: 2025. FairPhone B.V.
  *
@@ -31,7 +31,7 @@ import androidx.navigation.compose.rememberNavController
 import com.fairphone.spring.launcher.activity.LauncherSettingsActivity
 import com.fairphone.spring.launcher.data.model.colors
 import com.fairphone.spring.launcher.data.prefs.UsageMode
-import com.fairphone.spring.launcher.ui.component.AnimatedBackground
+import com.fairphone.spring.launcher.ui.component.LauncherBackground
 import com.fairphone.spring.launcher.ui.component.ScreenViewTracker
 import com.fairphone.spring.launcher.ui.screen.home.HomeScreen
 import com.fairphone.spring.launcher.ui.screen.home.HomeScreenViewModel
@@ -103,7 +103,7 @@ fun HomeNavigation(
                     enter = homeEnterTransition,
                     exit = homeExitTransition,
                 ) {
-                    AnimatedBackground(
+                    LauncherBackground(
                         colors = screenState!!.activeProfile.colors(),
                         modifier = Modifier
                             .background(MaterialTheme.colorScheme.background)
@@ -181,7 +181,7 @@ fun HomeNavigation(
                     enter = homeEnterTransition,
                     exit = homeExitTransition,
                 ) {
-                    AnimatedBackground(
+                    LauncherBackground(
                         colors = screenState!!.activeProfile.colors(),
                         modifier = Modifier
                             .background(MaterialTheme.colorScheme.background)

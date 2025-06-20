@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FairPhone B.V.
+ * Copyright (C) 2026 FairPhone B.V.
  *
  * SPDX-FileCopyrightText: 2025. FairPhone B.V.
  *
@@ -24,28 +24,28 @@ class CreateLauncherProfileUseCase(
     private val zenNotificationManager: ZenNotificationManager,
 ) : UseCase<CreateLauncherProfile, LauncherProfile>() {
 
-    override suspend fun execute(createLauncherProfile: CreateLauncherProfile): Result<LauncherProfile> {
+    override suspend fun execute(params: CreateLauncherProfile): Result<LauncherProfile> {
         return try {
             // Create automatic zen rule
-            val createdZenRuleId = zenNotificationManager.createAutomaticZenRule(createLauncherProfile)
+            val createdZenRuleId = zenNotificationManager.createAutomaticZenRule(params)
 
             // Create launcher profile
             val launcherProfile = launcherProfile {
-                id = createLauncherProfile.id
-                name = createLauncherProfile.name
-                icon = createLauncherProfile.icon
-                bgColor1 = createLauncherProfile.bgColor1
-                bgColor2 = createLauncherProfile.bgColor2
-                launcherProfileApps.addAll(createLauncherProfile.launcherProfileApps)
-                allowedContacts = createLauncherProfile.allowedContacts
-                customContacts.addAll(createLauncherProfile.customContacts)
-                repeatCallEnabled = createLauncherProfile.repeatCallEnabled
-                wallpaperId = createLauncherProfile.wallpaperId
-                uiMode = createLauncherProfile.uiMode
-                blueLightFilterEnabled = createLauncherProfile.blueLightFilterEnabled
-                soundSetting = createLauncherProfile.soundSetting
-                batterySaverEnabled = createLauncherProfile.batterySaverEnabled
-                reduceBrightnessEnabled = createLauncherProfile.reduceBrightnessEnabled
+                id = params.id
+                name = params.name
+                icon = params.icon
+                bgColor1 = params.bgColor1
+                bgColor2 = params.bgColor2
+                launcherProfileApps.addAll(params.launcherProfileApps)
+                allowedContacts = params.allowedContacts
+                customContacts.addAll(params.customContacts)
+                repeatCallEnabled = params.repeatCallEnabled
+                wallpaperId = params.wallpaperId
+                uiMode = params.uiMode
+                blueLightFilterEnabled = params.blueLightFilterEnabled
+                soundSetting = params.soundSetting
+                batterySaverEnabled = params.batterySaverEnabled
+                reduceBrightnessEnabled = params.reduceBrightnessEnabled
                 zenRuleId = createdZenRuleId
             }
 

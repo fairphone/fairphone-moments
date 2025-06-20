@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FairPhone B.V.
+ * Copyright (C) 2026 FairPhone B.V.
  *
  * SPDX-FileCopyrightText: 2025. FairPhone B.V.
  *
@@ -20,6 +20,7 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
@@ -31,17 +32,21 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.fairphone.spring.launcher.analytics.FirebaseAnalyticsService
 import com.fairphone.spring.launcher.analytics.LocalAnalyticsService
+import com.fairphone.spring.launcher.data.model.LauncherColors
+import com.fairphone.spring.launcher.data.model.colors
 import com.fairphone.spring.launcher.ui.navigation.HomeNavigation
+import com.fairphone.spring.launcher.ui.screen.home.HomeScreenViewModel
 import com.fairphone.spring.launcher.ui.theme.SpringLauncherTheme
 import com.fairphone.spring.launcher.util.Constants
 import com.google.firebase.Firebase
 import com.google.firebase.analytics.analytics
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.koin.compose.KoinContext
+import org.koin.android.ext.android.inject
 
 private const val ON_FINISH_DELAY = 400L
 private const val SHOW_HOME_SCREEN_DELAY = 100L
@@ -67,8 +72,9 @@ class SpringLauncherHomeActivity : ComponentActivity() {
         }
     }
 
-
     private val isContentVisibleState = mutableStateOf(false)
+
+    private val homeScreenViewModel: HomeScreenViewModel by inject()
 
     @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,7 +89,18 @@ class SpringLauncherHomeActivity : ComponentActivity() {
 
                 val analyticsService = remember { FirebaseAnalyticsService(Firebase.analytics) }
                 CompositionLocalProvider(LocalAnalyticsService provides analyticsService) {
-                    SpringLauncherTheme {
+                    val screenState by homeScreenViewModel.screenState.collectAsStateWithLifecycle()
+                    val activeProfile = screenState?.activeProfile ?: return@CompositionLocalProvider
+
+
+                    val useDarkTheme = when (activeProfile.colors()) {
+                        LauncherColors.Black -> true
+                        LauncherColors.Green -> true
+                        LauncherColors.White -> false
+                        else -> isSystemInDarkTheme()
+                    }
+
+                    SpringLauncherTheme(darkTheme = useDarkTheme) {
                     // TODO: Move compose code to a separate composable
                     /**
                      * These two boolean flags control:

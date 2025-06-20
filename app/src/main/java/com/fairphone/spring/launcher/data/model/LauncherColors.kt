@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FairPhone B.V.
+ * Copyright (C) 2026 FairPhone B.V.
  *
  * SPDX-FileCopyrightText: 2025. FairPhone B.V.
  *
@@ -25,6 +25,9 @@ data class LauncherColors(
         val Journey = LauncherColors(rightColor = 0xB2F7CAC9, leftColor = 0xB2E5D1F8)
         val Recharge = LauncherColors(rightColor = 0xB2D8FF4F, leftColor = 0xB2BBD9D6)
         val QualityTime = LauncherColors(rightColor = 0xB2C0AFFF, leftColor = 0xB2B0CCD8)
+        val Green = LauncherColors(rightColor = 0xFF0B1410, leftColor = 0xFF14241E)
+        val White = LauncherColors(rightColor = 0xFF9DA3AA, leftColor = 0xFFE0DEDC)
+        val Black = LauncherColors(rightColor = 0xFF060505, leftColor = 0xFF191715)
 
         val All = listOf(
             Default,
@@ -33,6 +36,9 @@ data class LauncherColors(
             Journey,
             Recharge,
             QualityTime,
+            Green,
+            White,
+            Black
         )
     }
 }
