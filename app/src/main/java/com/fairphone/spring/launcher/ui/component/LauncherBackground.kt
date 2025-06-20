@@ -14,6 +14,7 @@ import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -33,12 +34,14 @@ import androidx.compose.ui.draw.BlurredEdgeTreatment
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.fairphone.spring.launcher.data.model.LauncherColors
 import com.fairphone.spring.launcher.data.model.Preset
 import com.fairphone.spring.launcher.ui.FP6Preview
+import com.fairphone.spring.launcher.util.areStaticColors
 import kotlinx.coroutines.delay
 
 /**
@@ -65,10 +68,32 @@ enum class AnimationState {
 
 @OptIn(ExperimentalAnimationSpecApi::class)
 @Composable
-fun AnimatedBackground(
+fun LauncherBackground(
     modifier: Modifier = Modifier,
     colors: LauncherColors,
     content: @Composable BoxScope.() -> Unit = {},
+) {
+    if (colors.areStaticColors()) {
+        StaticBackground(
+            modifier = modifier,
+            colors = colors,
+            content = content,
+        )
+    } else {
+        AnimatedBackground(
+            modifier = modifier,
+            colors = colors,
+            content = content,
+        )
+    }
+}
+
+@OptIn(ExperimentalAnimationSpecApi::class)
+@Composable
+fun AnimatedBackground(
+    modifier: Modifier = Modifier,
+    colors: LauncherColors,
+    content: @Composable BoxScope.() -> Unit,
 ) {
     var animationState by remember { mutableStateOf(AnimationState.START) }
     val transition = updateTransition(targetState = animationState, label = "bg anim")
@@ -216,9 +241,30 @@ fun BackgroundBlob(
 }
 
 @Composable
+fun StaticBackground(
+    colors: LauncherColors,
+    modifier: Modifier = Modifier,
+    content: @Composable BoxScope.() -> Unit
+) {
+    val overlayGradient = Brush.verticalGradient(
+        colors = listOf(
+            Color(colors.leftColor),
+            Color(colors.rightColor)
+        )
+    )
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .background(brush = overlayGradient)
+    ) {
+        content()
+    }
+}
+
+@Composable
 @FP6Preview
 fun AnimatedBackground_Preview() {
-    AnimatedBackground(
+    LauncherBackground(
         colors = Preset.Custom.colors,
     )
 }

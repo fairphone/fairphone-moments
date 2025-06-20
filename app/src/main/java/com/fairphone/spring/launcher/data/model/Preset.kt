@@ -115,6 +115,11 @@ val Mock_Profile = launcherProfile {
 }
 
 fun LauncherProfile.colors() = LauncherColors(
-        rightColor = bgColor2,
-        leftColor = bgColor1
-    )
+    rightColor = bgColor2,
+    leftColor = bgColor1,
+)
+
+fun CreateLauncherProfile.colors() = LauncherColors(
+    rightColor = bgColor2,
+    leftColor = bgColor1,
+)

@@ -134,7 +134,7 @@ fun ChooseBackgroundScreen(
                     count = colors.size,
                     contentType = { index -> colors[index] }
                 ) { index ->
-                    val color = colors[index]
+                    val launcherColors = colors[index]
                     Box(
                         modifier = Modifier
                             .clip(RoundedCornerShape(32.dp))
@@ -147,7 +147,7 @@ fun ChooseBackgroundScreen(
                             .height(446.dp)
                     ) {
                         ChooseBackgroundExample(
-                            endColor = Color(color.rightColor),
+                            launcherColors = launcherColors,
                             modifier = Modifier.fillMaxSize(),
                             onClick = {
                                 scrollToIndex = index
@@ -174,12 +174,6 @@ fun ChooseBackgroundScreen(
                             .background(if (isSelected) Color.White else Color(0x4DFFFFFF))
 
                     )
-//                    RadioButton(
-//                        selected = (i == selectedColorIndex.value),
-//                        onClick = {
-//                            selectedColorIndex.value = i
-//                        }
-//                    )
                 }
             }
         }
