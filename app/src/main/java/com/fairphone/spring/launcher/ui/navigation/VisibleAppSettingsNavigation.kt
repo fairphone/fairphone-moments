@@ -39,6 +39,9 @@ fun NavGraphBuilder.visibleAppSettingsNavGraph(navController: NavHostController)
             screenState = screenState,
             onChangeAppsClick = {
                 navController.navigate(VisibleAppSelector)
+            },
+            onChangeAppOrder = { currentIndex, targetIndex ->
+                viewModel.updateAppOrder(currentIndex, targetIndex)
             }
         )
     }

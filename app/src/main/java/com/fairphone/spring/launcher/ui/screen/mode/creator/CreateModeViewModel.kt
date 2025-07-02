@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FairPhone B.V.
+ * Copyright (C) 2026 FairPhone B.V.
  *
  * SPDX-FileCopyrightText: 2025. FairPhone B.V.
  *
@@ -26,7 +26,7 @@ import com.fairphone.spring.launcher.data.model.LAUNCHER_MAX_APP_COUNT
 import com.fairphone.spring.launcher.data.model.LauncherColors
 import com.fairphone.spring.launcher.data.model.Preset
 import com.fairphone.spring.launcher.data.model.protos.LauncherProfileApp
-import com.fairphone.spring.launcher.data.model.protos.launcherProfileApp
+import com.fairphone.spring.launcher.data.model.toLauncherProfileApp
 import com.fairphone.spring.launcher.data.repository.AppInfoRepository
 import com.fairphone.spring.launcher.domain.usecase.profile.CreateLauncherProfileUseCase
 import com.fairphone.spring.launcher.domain.usecase.profile.SetEditedProfileUseCase
@@ -87,12 +87,7 @@ class CreateModeViewModel(
 
     fun updateLauncherVisibleApps(visibleApps: List<AppInfo>) {
         this.launcherProfileApps.clear()
-        this.launcherProfileApps.addAll(visibleApps.map {
-            launcherProfileApp {
-                packageName = it.packageName
-                isWorkApp = it.isWorkApp
-            }
-        })
+        this.launcherProfileApps.addAll(visibleApps.map { it.toLauncherProfileApp() })
     }
 
     fun updateBackgroundColors(colors: LauncherColors) {
