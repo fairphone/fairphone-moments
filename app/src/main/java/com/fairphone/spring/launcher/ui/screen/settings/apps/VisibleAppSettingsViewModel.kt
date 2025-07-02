@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FairPhone B.V.
+ * Copyright (C) 2026 FairPhone B.V.
  *
  * SPDX-FileCopyrightText: 2025. FairPhone B.V.
  *
@@ -28,36 +28,75 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fairphone.spring.launcher.data.model.AppInfo
+import com.fairphone.spring.launcher.data.model.protos.LauncherProfile
 import com.fairphone.spring.launcher.data.model.protos.LauncherProfileApp
+import com.fairphone.spring.launcher.data.model.toLauncherProfileApp
 import com.fairphone.spring.launcher.data.repository.AppInfoRepository
 import com.fairphone.spring.launcher.domain.usecase.profile.GetEditedProfileUseCase
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import com.fairphone.spring.launcher.domain.usecase.profile.UpdateLauncherProfileUseCase
+import com.fairphone.spring.launcher.util.permute
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class VisibleAppSettingsViewModel(
     context: Context,
     private val appInfoRepository: AppInfoRepository,
     private val getEditedProfileUseCase: GetEditedProfileUseCase,
+    private val updateLauncherProfileUseCase: UpdateLauncherProfileUseCase,
 ) : ViewModel() {
 
-    val screenState: StateFlow<VisibleAppSettingsScreenState> =
-        getEditedProfileUseCase.execute(Unit)
-            .map { profile ->
+    private val _screenState: MutableStateFlow<VisibleAppSettingsScreenState> =
+        MutableStateFlow(VisibleAppSettingsScreenState.Loading)
+    val screenState = _screenState.asStateFlow()
+    lateinit var profile: LauncherProfile
+
+    init {
+        viewModelScope.launch {
+            _screenState.update {
+                profile = getEditedProfileUseCase.execute(Unit).first()
                 val visibleApps = getAppInfoList(context, profile.launcherProfileAppsList)
                 VisibleAppSettingsScreenState.Ready(
                     visibleApps = visibleApps,
                 )
-            }.stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(),
-                initialValue = VisibleAppSettingsScreenState.Loading
-            )
-
+            }
+        }
+    }
 
     private fun getAppInfoList(context: Context, appIds: List<LauncherProfileApp>): List<AppInfo> {
         return appInfoRepository.getAppInfosByProfileApps(context, appIds)
+    }
+
+    fun updateAppOrder(currentIndex: Int, targetIndex: Int) {
+        viewModelScope.launch {
+            if(currentIndex == targetIndex) {
+                return@launch
+            } else {
+                _screenState.update { state ->
+                    when (state) {
+                        is VisibleAppSettingsScreenState.Loading -> state
+                        is VisibleAppSettingsScreenState.Ready -> {
+                            val updatedApps = state.visibleApps.permute(currentIndex, targetIndex)
+                            val launcherProfileApps = updatedApps.map { it.toLauncherProfileApp() }
+                            profile = profile
+                                .toBuilder()
+                                .clearLauncherProfileApps()
+                                .addAllLauncherProfileApps(launcherProfileApps)
+                                .build()
+                            val  result = updateLauncherProfileUseCase.execute(profile)
+                            if(result.isSuccess) {
+                                state.copy(visibleApps = updatedApps)
+                            } else {
+                                state
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
     }
 }
 

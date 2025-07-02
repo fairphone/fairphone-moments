@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FairPhone B.V.
+ * Copyright (C) 2026 FairPhone B.V.
  *
  * SPDX-FileCopyrightText: 2025. FairPhone B.V.
  *
@@ -15,7 +15,7 @@ import androidx.lifecycle.viewModelScope
 import com.fairphone.spring.launcher.R
 import com.fairphone.spring.launcher.data.model.AppInfo
 import com.fairphone.spring.launcher.data.model.LAUNCHER_MAX_APP_COUNT
-import com.fairphone.spring.launcher.data.model.protos.LauncherProfileApp
+import com.fairphone.spring.launcher.data.model.toLauncherProfileApp
 import com.fairphone.spring.launcher.data.repository.AppInfoRepository
 import com.fairphone.spring.launcher.domain.usecase.profile.GetEditedProfileUseCase
 import com.fairphone.spring.launcher.domain.usecase.profile.UpdateLauncherProfileUseCase
@@ -124,12 +124,8 @@ class VisibleAppSelectorViewModel(
 
     fun confirmAppSelection() = viewModelScope.launch {
         val editedProfile = getEditedProfileUseCase.execute(Unit).first()
-        val profileApps = visibleApps.map { appInfo ->
-            LauncherProfileApp.newBuilder()
-                .setPackageName(appInfo.packageName)
-                .setIsWorkApp(appInfo.isWorkApp)
-                .build()
-        }
+        val profileApps = visibleApps.map { it.toLauncherProfileApp() }
+
         val newProfile = editedProfile.toBuilder()
             .clearLauncherProfileApps()
             .addAllLauncherProfileApps(profileApps)

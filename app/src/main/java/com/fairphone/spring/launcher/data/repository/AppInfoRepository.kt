@@ -138,7 +138,7 @@ class AppInfoRepositoryImpl : AppInfoRepository {
                     .filter { it.isWorkApp == isWorkProfile }
                     .flatMap { launcherProfileApp ->
                         launcherApps.getActivityList(launcherProfileApp.packageName, profile)
-                    }.sortedBy { it.label.toString().lowercase() }
+                    }
 
                 activities.mapNotNull { activityInfo ->
                     try {
