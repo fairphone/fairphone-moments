@@ -94,4 +94,15 @@
     <string name="wallpaper">Tapete</string>
     <string name="update_wallpaper">Hintergrund aktualisieren</string>
     <string name="maximum_moments_reached_label">Sie haben die maximale Anzahl an Momenten erreicht</string>
+
+    <string name="sound_and_vibration_title">Ton &amp; Vibration</string>
+    <string name="sound_and_vibration_description">Ändern Sie die Ton- und Vibrationseinstellungen Ihres Geräts nach Ihren Wünschen.</string>
+    <string name="sound_and_vibration_match_title">Geräteeinstellungen anpassen</string>
+    <string name="sound_and_vibration_match_subtitle">Aktuelle Geräteeinstellungen übernehmen</string>
+    <string name="sound_and_vibration_loud_title">Laut</string>
+    <string name="sound_and_vibration_loud_subtitle">Alle Töne mit maximaler Lautstärke abspielen</string>
+    <string name="sound_and_vibration_vibrate_title">Vibrieren</string>
+    <string name="sound_and_vibration_vibrate_subtitle">Töne stummschalten und nur Vibration aktivieren</string>
+    <string name="sound_and_vibration_silent_title">Stummschalten</string>
+    <string name="sound_and_vibration_silent_subtitle">Alle Töne und Vibrationen deaktivieren</string>
 </resources>

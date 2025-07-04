@@ -241,6 +241,7 @@ fun Context.notificationManager() =
 
 fun Context.uiModeManager() = getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
 fun Context.wallpaperManager() = getSystemService(Context.WALLPAPER_SERVICE) as WallpaperManager
+fun Context.audioManager() = getSystemService(Context.AUDIO_SERVICE) as android.media.AudioManager
 
 fun Context.hasInternetConnection(): Boolean {
     val connectivityManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager

@@ -94,4 +94,15 @@
     <string name="wallpaper">Fond d\'écran</string>
     <string name="update_wallpaper">Changer le fond d\'écran</string>
     <string name="maximum_moments_reached_label">Vous avez atteint le nombre maximal de moments</string>
+
+    <string name="sound_and_vibration_title">Son et vibrations</string>
+    <string name="sound_and_vibration_description">Modifiez les paramètres de son et de vibrations de votre appareil selon vos préférences.</string>
+    <string name="sound_and_vibration_match_title">Adapter les paramètres de l\'appareil.</string>
+    <string name="sound_and_vibration_match_subtitle">Suivez les paramètres actuels de votre appareil.</string>
+    <string name="sound_and_vibration_loud_title">Fort</string>
+    <string name="sound_and_vibration_loud_subtitle">Lancez tous les sons au volume maximum.</string>
+    <string name="sound_and_vibration_vibrate_title">Vibreur</string>
+    <string name="sound_and_vibration_vibrate_subtitle">Couper les sons et activer uniquement les vibrations.</string>
+    <string name="sound_and_vibration_silent_title">Silence</string>
+    <string name="sound_and_vibration_silent_subtitle">Désactiver tous les sons et les vibrations.</string>
 </resources>

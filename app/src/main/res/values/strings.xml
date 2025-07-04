@@ -115,4 +115,14 @@
     <string name="update_wallpaper">Update wallpaper</string>
     <string name="maximum_moments_reached_label">You have reached the maximum amount of moments</string>
 
+    <string name="sound_and_vibration_title">Sound &amp; vibration</string>
+    <string name="sound_and_vibration_description">Override your device\'s sound and vibration settings based on your preference</string>
+    <string name="sound_and_vibration_match_title">Match device settings</string>
+    <string name="sound_and_vibration_match_subtitle">Follow your device\'s current settings</string>
+    <string name="sound_and_vibration_loud_title">Loud</string>
+    <string name="sound_and_vibration_loud_subtitle">Play all sounds at maximum volume</string>
+    <string name="sound_and_vibration_vibrate_title">Vibrate</string>
+    <string name="sound_and_vibration_vibrate_subtitle">Mute sounds and enable vibration only</string>
+    <string name="sound_and_vibration_silent_title">Silent</string>
+    <string name="sound_and_vibration_silent_subtitle">Disable all sounds and vibrations</string>
 </resources>

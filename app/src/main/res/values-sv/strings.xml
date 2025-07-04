@@ -95,4 +95,15 @@
     <string name="wallpaper">Tapet</string>
     <string name="update_wallpaper">Uppdatera Bakgrund</string>
     <string name="maximum_moments_reached_label">Du har nått det maximala antalet ögonblick</string>
+
+    <string name="sound_and_vibration_title">Ljud och vibration</string>
+    <string name="sound_and_vibration_description">Åsidosätt enhetens ljud- och vibrationsinställningar baserat på dina önskemål</string>
+    <string name="sound_and_vibration_match_title">Matcha enhetsinställningar</string>
+    <string name="sound_and_vibration_match_subtitle">Följ enhetens aktuella inställningar</string>
+    <string name="sound_and_vibration_loud_title">Högt</string>
+    <string name="sound_and_vibration_loud_subtitle">Spela upp alla ljud på maximal volym</string>
+    <string name="sound_and_vibration_vibrate_title">Vibrera</string>
+    <string name="sound_and_vibration_vibrate_subtitle">Stäng av ljud och aktivera endast vibration</string>
+    <string name="sound_and_vibration_silent_title">Tyst</string>
+    <string name="sound_and_vibration_silent_subtitle">Inaktivera alla ljud och vibrationer</string>
 </resources>

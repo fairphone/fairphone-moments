@@ -22,6 +22,7 @@ import com.fairphone.spring.launcher.ui.screen.settings.contacts.AllowedContactS
 import com.fairphone.spring.launcher.ui.screen.settings.main.ProfileSettingsViewModel
 import com.fairphone.spring.launcher.ui.screen.settings.notifications.AllowedNotificationsAppsViewModel
 import com.fairphone.spring.launcher.ui.screen.settings.notifications.NotificationsSettingsViewModel
+import com.fairphone.spring.launcher.ui.screen.settings.sound.SoundVibrationSettingsViewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
@@ -40,4 +41,5 @@ val uiModule = module {
     viewModelOf(::OnBoardingViewModel)
     viewModelOf(::OnBoardingStatusViewModel)
     viewModelOf(::WallpaperSettingsViewModel)
+    viewModelOf(::SoundVibrationSettingsViewModel)
 }

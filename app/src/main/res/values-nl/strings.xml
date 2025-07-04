@@ -94,4 +94,15 @@
     <string name="wallpaper">Achtergrond</string>
     <string name="update_wallpaper">Achtergrond bijwerken</string>
     <string name="maximum_moments_reached_label">Je hebt het maximale aantal momenten bereikt</string>
+
+    <string name="sound_and_vibration_title">Geluid en trilling</string>
+    <string name="sound_and_vibration_description">Overschrijf de geluids- en trillingsinstellingen van je apparaat naar je voorkeur</string>
+    <string name="sound_and_vibration_match_title">Apparaatinstellingen aanpassen</string>
+    <string name="sound_and_vibration_match_subtitle">Volg de huidige instellingen van je apparaat</string>
+    <string name="sound_and_vibration_loud_title">Luid</string>
+    <string name="sound_and_vibration_loud_subtitle">Speel alle geluiden af op maximaal volume</string>
+    <string name="sound_and_vibration_vibrate_title">Trillen</string>
+    <string name="sound_and_vibration_vibrate_subtitle">Geluiden dempen en alleen trillen inschakelen</string>
+    <string name="sound_and_vibration_silent_title">Stil</string>
+    <string name="sound_and_vibration_silent_subtitle">Alle geluiden en trillingen uitschakelen</string>
 </resources>

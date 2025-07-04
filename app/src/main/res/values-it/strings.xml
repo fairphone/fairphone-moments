@@ -95,4 +95,15 @@
     <string name="wallpaper">Sfondo</string>
     <string name="update_wallpaper">Aggiorna Sfondo</string>
     <string name="maximum_moments_reached_label">Hai raggiunto il numero massimo di momenti</string>
+
+    <string name="sound_and_vibration_title">Suono e vibrazione</string>
+    <string name="sound_and_vibration_description">Sovrascrivi le impostazioni di suono e vibrazione del tuo dispositivo in base alle tue preferenze</string>
+    <string name="sound_and_vibration_match_title">Adegua le impostazioni del dispositivo</string>
+    <string name="sound_and_vibration_match_subtitle">Segui le impostazioni correnti del tuo dispositivo</string>
+    <string name="sound_and_vibration_loud_title">Alto</string>
+    <string name="sound_and_vibration_loud_subtitle">Riproduci tutti i suoni al massimo volume</string>
+    <string name="sound_and_vibration_vibrate_title">Vibrazione</string>
+    <string name="sound_and_vibration_vibrate_subtitle">Disattiva i suoni e attiva solo la vibrazione</string>
+    <string name="sound_and_vibration_silent_title">Silenzio</string>
+    <string name="sound_and_vibration_silent_subtitle">Disattiva tutti i suoni e le vibrazioni</string>
 </resources>

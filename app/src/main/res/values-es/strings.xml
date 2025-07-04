@@ -94,4 +94,15 @@
     <string name="wallpaper">Papel pintado</string>
     <string name="update_wallpaper">Actualizar Fondo de Pantalla</string>
     <string name="maximum_moments_reached_label">Has alcanzado la cantidad máxima de momentos</string>
+
+    <string name="sound_and_vibration_title">Sonido y vibración</string>
+    <string name="sound_and_vibration_description">Anula la configuración de sonido y vibración de tu dispositivo según tus preferencias.</string>
+    <string name="sound_and_vibration_match_title">Adaptarse a la configuración del dispositivo.</string>
+    <string name="sound_and_vibration_match_subtitle">Seguir la configuración actual de tu dispositivo.</string>
+    <string name="sound_and_vibration_loud_title">Alto volumen.</string>
+    <string name="sound_and_vibration_loud_subtitle">Reproducir todos los sonidos al máximo volumen.</string>
+    <string name="sound_and_vibration_vibrate_title">Vibrar.</string>
+    <string name="sound_and_vibration_vibrate_subtitle">Silenciar sonidos y activar solo vibración.</string>
+    <string name="sound_and_vibration_silent_title">Silencio.</string>
+    <string name="sound_and_vibration_silent_subtitle">Desactivar todos los sonidos y vibraciones.</string>
 </resources>

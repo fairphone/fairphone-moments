@@ -95,4 +95,15 @@
     <string name="wallpaper">Papel de parede</string>
     <string name="update_wallpaper">Atualizar Papel de Parede</string>
     <string name="maximum_moments_reached_label">Você atingiu o número máximo de momentos</string>
+
+    <string name="sound_and_vibration_title">Som e vibração</string>
+    <string name="sound_and_vibration_description">Substituir as definições de som e vibração do seu dispositivo de acordo com a sua preferência</string>
+    <string name="sound_and_vibration_match_title">Corresponder às definições do dispositivo</string>
+    <string name="sound_and_vibration_match_subtitle">Seguir as definições atuais do seu dispositivo</string>
+    <string name="sound_and_vibration_loud_title">Alto</string>
+    <string name="sound_and_vibration_loud_subtitle">Reproduzir todos os sons no volume máximo</string>
+    <string name="sound_and_vibration_vibrate_title">Vibrar</string>
+    <string name="sound_and_vibration_vibrate_subtitle">Silenciar sons e ativar apenas vibração</string>
+    <string name="sound_and_vibration_silent_title">Silenciar</string>
+    <string name="sound_and_vibration_silent_subtitle">Desativar todos os sons e vibrações</string>
 </resources>
