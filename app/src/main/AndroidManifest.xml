@@ -55,6 +55,7 @@
     <!-- Permission needed to change audio settings -->
     <uses-permission android:name="android.permission.MODIFY_AUDIO_ROUTING"
         tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
     <!-- Permission needed to use advertising id for Google Analytics by Google Play policy: https://support.google.com/googleplay/android-developer/answer/6048248?hl=en -->
     <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>

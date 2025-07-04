@@ -21,16 +21,10 @@ class SetActiveProfileUseCase(
     override suspend fun execute(params: String): Result<LauncherProfile> {
         return try {
             val currentActiveProfile = launcherProfileRepository.getActiveProfile().first()
-            zenNotificationManager.disableDnd(
-                zenRuleId = currentActiveProfile.zenRuleId,
-                name = currentActiveProfile.name,
-            )
+            zenNotificationManager.disableDnd(profile = currentActiveProfile)
 
             val newActiveProfile = launcherProfileRepository.getProfile(params).first()
-            zenNotificationManager.enableDnd(
-                zenRuleId = newActiveProfile.zenRuleId,
-                name = newActiveProfile.name,
-            )
+            zenNotificationManager.enableDnd(profile = newActiveProfile)
             launcherProfileRepository.setActiveProfile(params)
             return Result.success(newActiveProfile)
         } catch (e: Exception) {

@@ -12,6 +12,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -41,12 +42,16 @@ interface AppPrefs {
     suspend fun setFirstTimeUse(value: Boolean)
     suspend fun usageMode(): UsageMode
     suspend fun setUsageMode(usageMode: UsageMode)
+
+    suspend fun setRingerMode(ringerMode: Int)
+    suspend fun getRingerMode(): Int
 }
 
 class AppPrefsImpl(private val dataStore: DataStore<Preferences>) : AppPrefs {
     companion object {
         val FIRST_TIME_USE = booleanPreferencesKey("first_time_use")
         val ONBOARDING_COMPLETION = stringPreferencesKey("onboarding_complete")
+        val DEVICE_RINGER_MODE = intPreferencesKey("device_ringer_mode")
     }
 
     override suspend fun isFirstTimeUse(): Boolean {
@@ -73,6 +78,18 @@ class AppPrefsImpl(private val dataStore: DataStore<Preferences>) : AppPrefs {
     override suspend fun setUsageMode(usageMode: UsageMode) {
         dataStore.edit { prefs ->
             prefs[ONBOARDING_COMPLETION] = usageMode.name
+        }
+    }
+
+    override suspend fun getRingerMode(): Int {
+        return dataStore.data.map { prefs ->
+            prefs[DEVICE_RINGER_MODE] ?: -1
+        }.first()
+    }
+
+    override suspend fun setRingerMode(ringerMode: Int) {
+        dataStore.edit { prefs ->
+            prefs[DEVICE_RINGER_MODE] = ringerMode
         }
     }
 }

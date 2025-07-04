@@ -94,4 +94,15 @@
     <string name="wallpaper">Tapet</string>
     <string name="update_wallpaper">Opdater Baggrund</string>
     <string name="maximum_moments_reached_label">Du har nået det maksimale antal øjeblikke</string>
+
+    <string name="sound_and_vibration_title">Lyd og vibration</string>
+    <string name="sound_and_vibration_description">Tilsidesæt din enheds lyd- og vibrationsindstillinger baseret på dine præferencer</string>
+    <string name="sound_and_vibration_match_title">Match enhedsindstillinger</string>
+    <string name="sound_and_vibration_match_subtitle">Følg din enheds aktuelle indstillinger</string>
+    <string name="sound_and_vibration_loud_title">højt</string>
+    <string name="sound_and_vibration_loud_subtitle">Afspil alle lyde ved maksimal lydstyrke</string>
+    <string name="sound_and_vibration_vibrate_title">Vibrer</string>
+    <string name="sound_and_vibration_vibrate_subtitle">Dæmp lyde og aktiver kun vibration</string>
+    <string name="sound_and_vibration_silent_title">Lydløs</string>
+    <string name="sound_and_vibration_silent_subtitle">Deaktiver alle lyde og vibrationer</string>
 </resources>

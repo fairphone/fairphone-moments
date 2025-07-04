@@ -14,13 +14,20 @@ import android.content.Context
 import android.service.notification.Condition
 import android.service.notification.ZenDeviceEffects
 import android.service.notification.ZenPolicy
+import android.util.Log
 import androidx.core.net.toUri
 import com.fairphone.spring.launcher.activity.LauncherSettingsActivity
 import com.fairphone.spring.launcher.data.model.CreateLauncherProfile
 import com.fairphone.spring.launcher.data.model.protos.ContactType
+import com.fairphone.spring.launcher.data.model.protos.LauncherProfile
 import com.fairphone.spring.launcher.data.model.protos.UiMode
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
-class ZenNotificationManager(private val context: Context) {
+class ZenNotificationManager(
+    private val context: Context,
+    private val deviceSoundManager: DeviceSoundManager,
+) {
 
     companion object {
         val ZEN_RULE_CONDITION_ID = "com.fairphone.moments".toUri()
@@ -32,11 +39,14 @@ class ZenNotificationManager(private val context: Context) {
      * @throws IllegalStateException if Do Not Disturb permission is not granted
      */
     @Throws(IllegalStateException::class)
-    fun enableDnd(zenRuleId: String, name: String) {
+    suspend fun enableDnd(profile: LauncherProfile) {
+        Log.d("ZenNotificationManager", "Enabling Do Not Disturb mode for rule ${profile.name}")
         // Check if Do Not Disturb permission is granted
         check(context.isDoNotDisturbAccessGranted())
-
-        setAutomaticZenRuleState(zenRuleId, name, Condition.STATE_TRUE)
+        deviceSoundManager.enableDeviceSoundSetting(profile.soundSetting)
+        withContext(Dispatchers.Main) {
+            enableDnd(zenRuleId = profile.zenRuleId, name = profile.name)
+        }
     }
 
     /**
@@ -45,23 +55,29 @@ class ZenNotificationManager(private val context: Context) {
      * @throws IllegalStateException if Do Not Disturb permission is not granted
      */
     @Throws(IllegalStateException::class)
-    fun disableDnd(zenRuleId: String, name: String) {
+    suspend fun disableDnd(profile: LauncherProfile) {
+        Log.d("ZenNotificationManager", "Disabling Do Not Disturb mode for rule ${profile.name}")
         // Check if Do Not Disturb permission is granted
         check(context.isDoNotDisturbAccessGranted())
-
-        setAutomaticZenRuleState(zenRuleId, name, Condition.STATE_FALSE)
+        deviceSoundManager.disableDeviceSoundSetting()
+        withContext(Dispatchers.Main) {
+            disableDnd(zenRuleId = profile.zenRuleId, name = profile.name)
+        }
     }
 
     /**
      * Disables Do Not Disturb mode for all automatic zen rules.
      */
     @Throws(IllegalStateException::class)
-    fun disableAllDnd() {
+    suspend fun disableAllDnd() {
+        Log.d("ZenNotificationManager", "Disabling Do Not Disturb mode for all automatic zen rules")
         // Check if Do Not Disturb permission is granted
         check(context.isDoNotDisturbAccessGranted())
-
-        context.notificationManager().automaticZenRules.forEach { ruleId, rule ->
-            disableDnd(ruleId, rule.name)
+        deviceSoundManager.disableDeviceSoundSetting()
+        withContext(Dispatchers.Main) {
+            context.notificationManager().automaticZenRules.forEach { (ruleId, rule) ->
+                disableDnd(zenRuleId = ruleId, name = rule.name)
+            }
         }
     }
 
@@ -87,8 +103,33 @@ class ZenNotificationManager(private val context: Context) {
     /**
      * Updates an existing automatic zen rule using the given parameters.
      */
+    suspend fun updateAutomaticZenRule(profile: LauncherProfile): Result<AutomaticZenRule> {
+        if (context.isAppDefaultLauncher()) {
+            // Disable DND first
+            disableDnd(profile = profile)
+        }
+
+        val result = updateAutomaticZenRule(
+            zenRuleId = profile.zenRuleId,
+            name = profile.name,
+            allowedContacts = profile.allowedContacts,
+            uiMode = profile.uiMode,
+            repeatCallEnabled = profile.repeatCallEnabled,
+        )
+
+        if (context.isAppDefaultLauncher()) {
+            // Enable DND again
+            enableDnd(profile = profile)
+        }
+
+        return result
+    }
+
+    /**
+     * Updates an existing automatic zen rule using the given parameters.
+     */
     @Throws(IllegalStateException::class)
-    fun updateAutomaticZenRule(
+    private fun updateAutomaticZenRule(
         zenRuleId: String,
         name: String,
         allowedContacts: ContactType,
@@ -99,9 +140,6 @@ class ZenNotificationManager(private val context: Context) {
         check(context.isDoNotDisturbAccessGranted())
         check(context.notificationManager().getAutomaticZenRule(zenRuleId) != null)
 
-        // Disable DND first
-        disableDnd(zenRuleId, name)
-
         // Update rule
         val updatedZenRule = createZenRule(
             name = name,
@@ -110,9 +148,6 @@ class ZenNotificationManager(private val context: Context) {
             repeatCallEnabled = repeatCallEnabled,
         )
         val result = context.notificationManager().updateAutomaticZenRule(zenRuleId, updatedZenRule)
-
-        // Enable DND again
-        enableDnd(zenRuleId, name)
 
         return if (result) {
             Result.success(context.notificationManager().getAutomaticZenRule(zenRuleId))
@@ -136,6 +171,40 @@ class ZenNotificationManager(private val context: Context) {
         } else {
             Result.failure(Exception("Failed to remove automatic zen rule"))
         }
+    }
+
+    /**
+     * Enables Do Not Disturb mode for the given rule.
+     *
+     * @throws IllegalStateException if Do Not Disturb permission is not granted
+     */
+    @Throws(IllegalStateException::class)
+    private fun enableDnd(zenRuleId: String, name: String) {
+        // Check if Do Not Disturb permission is granted
+        check(context.isDoNotDisturbAccessGranted())
+
+        setAutomaticZenRuleState(
+            zenRuleId = zenRuleId,
+            name = name,
+            state = Condition.STATE_TRUE
+        )
+    }
+
+    /**
+     * Disables Do Not Disturb mode for the given rule.
+     *
+     * @throws IllegalStateException if Do Not Disturb permission is not granted
+     */
+    @Throws(IllegalStateException::class)
+    private fun disableDnd(zenRuleId: String, name: String) {
+        // Check if Do Not Disturb permission is granted
+        check(context.isDoNotDisturbAccessGranted())
+
+        setAutomaticZenRuleState(
+            zenRuleId = zenRuleId,
+            name = name,
+            state = Condition.STATE_FALSE
+        )
     }
 
     /**

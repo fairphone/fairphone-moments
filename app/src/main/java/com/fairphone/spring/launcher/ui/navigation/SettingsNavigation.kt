@@ -88,7 +88,9 @@ fun SettingsNavigation(
                 onNavigateToAppearanceSettings = {
                     navController.navigate(AppearanceSettings)
                 },
-                onNavigateToSoundAndVibrationSettings = {},
+                onNavigateToSoundAndVibrationSettings = {
+                    navController.navigate(SoundAndVibrationSettings)
+                },
                 onNavigateToPowerSavingSettings = {},
                 onModeDeletionClick = {
                     viewModel.deleteProfile()
@@ -111,5 +113,8 @@ fun SettingsNavigation(
 
         // Appearance Settings
         appearenceSettingsNavGraph(navController)
+
+        // Sound and vibration Settings
+        soundAndVibrationSettingsNavGraph()
     }
 }

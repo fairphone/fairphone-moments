@@ -95,4 +95,15 @@
     <string name="wallpaper">Bakgrunn</string>
     <string name="update_wallpaper">Oppdater bakgrunnsbilde</string>
     <string name="maximum_moments_reached_label">Du har nådd maksimalt antall øyeblikk</string>
+
+    <string name="sound_and_vibration_title">Lyd og vibrasjon</string>
+    <string name="sound_and_vibration_description">Overstyr enhetens lyd- og vibrasjonsinnstillinger basert på dine preferanser</string>
+    <string name="sound_and_vibration_match_title">Tilpass enhetsinnstillinger</string>
+    <string name="sound_and_vibration_match_subtitle">Følg enhetens gjeldende innstillinger</string>
+    <string name="sound_and_vibration_loud_title">Høyt</string>
+    <string name="sound_and_vibration_loud_subtitle">Spill av alle lyder på maksimalt volum</string>
+    <string name="sound_and_vibration_vibrate_title">Vibrer</string>
+    <string name="sound_and_vibration_vibrate_subtitle">Demp lyder og aktiver kun vibrasjon</string>
+    <string name="sound_and_vibration_silent_title">Stillhet</string>
+    <string name="sound_and_vibration_silent_subtitle">Deaktiver alle lyder og vibrasjoner</string>
 </resources>

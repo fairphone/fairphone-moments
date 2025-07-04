@@ -27,7 +27,7 @@ class EnableDndUseCase(
                 ?: return Result.failure(Exception("No active profile found"))
 
             if (params) {
-                zenNotificationManager.enableDnd(activeProfile.zenRuleId, activeProfile.name)
+                zenNotificationManager.enableDnd(activeProfile)
             } else {
                 zenNotificationManager.disableAllDnd()
             }
