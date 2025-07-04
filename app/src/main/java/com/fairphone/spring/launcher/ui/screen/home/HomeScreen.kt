@@ -43,16 +43,14 @@ import com.fairphone.spring.launcher.data.model.protos.LauncherProfile
 import com.fairphone.spring.launcher.data.prefs.UsageMode
 import com.fairphone.spring.launcher.ui.FP6Preview
 import com.fairphone.spring.launcher.ui.FP6PreviewDark
+import com.fairphone.spring.launcher.ui.component.DateTime
 import com.fairphone.spring.launcher.ui.component.FairphoneMomentsDemoCard
 import com.fairphone.spring.launcher.ui.component.WorkAppBadge
 import com.fairphone.spring.launcher.ui.screen.home.component.CurrentModeButton
 import com.fairphone.spring.launcher.ui.theme.FairphoneTypography
 import com.fairphone.spring.launcher.ui.theme.SpringLauncherTheme
+import kotlinx.datetime.LocalDateTime
 import org.koin.androidx.compose.koinViewModel
-import java.time.format.DateTimeFormatter
-
-const val CLOCK_TIME_FORMAT = "HH:mm"
-const val CLOCK_DATE_FORMAT = "EEE, dd LLL"
 
 private const val CONTENT_FADE_IN_DURATION = 420 // Duration of the text animation
 
@@ -68,17 +66,11 @@ fun HomeScreen(
     val dateTime by viewModel.dateTime.collectAsStateWithLifecycle()
     val screenState by viewModel.screenState.collectAsStateWithLifecycle()
 
-    val (date, time) = remember(dateTime) {
-        dateTime.format(DateTimeFormatter.ofPattern(CLOCK_DATE_FORMAT)) to
-                dateTime.format(DateTimeFormatter.ofPattern(CLOCK_TIME_FORMAT))
-    }
-
     screenState ?: return
 
     HomeScreen(
         isContentVisible = isContentVisible,
-        date = date,
-        time = time,
+        dateTime = dateTime,
         appUsageMode = screenState!!.appUsageMode,
         activeProfile = screenState!!.activeProfile,
         appList = screenState!!.visibleApps,
@@ -103,8 +95,7 @@ fun HomeScreen(
 fun HomeScreen(
     modifier: Modifier = Modifier,
     isContentVisible: Boolean,
-    date: String,
-    time: String,
+    dateTime: LocalDateTime,
     appUsageMode: UsageMode,
     activeProfile: LauncherProfile,
     appList: List<AppInfo>,
@@ -140,21 +131,7 @@ fun HomeScreen(
                     .fillMaxWidth()
                     .padding(top = 40.dp)
             ) {
-                Text(
-                    text = time,
-                    style = FairphoneTypography.Time,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier.clickable(
-                        interactionSource = null,
-                        indication = null,
-                        onClick = onTimeClick,
-                    )
-                )
-                Text(
-                    text = date,
-                    style = FairphoneTypography.Date,
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
+                DateTime(dateTime = dateTime, onTimeClick = onTimeClick)
 
                 CurrentModeButton(
                     modifier = Modifier.padding(top = 12.dp),
@@ -271,8 +248,7 @@ fun HomeScreen_Preview() {
     SpringLauncherTheme {
         HomeScreen(
             isContentVisible = true,
-            date = "Wed, 13 Feb",
-            time = "12:30",
+            dateTime = LocalDateTime(2025, 2, 13, 12, 30),
             appUsageMode = UsageMode.DEFAULT,
             activeProfile = Mock_Profile,
             appList = previewAppList(LocalContext.current),

@@ -32,7 +32,10 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Clock
 
 class HomeScreenViewModel(
     context: Context,
@@ -43,7 +46,8 @@ class HomeScreenViewModel(
     private val initializeSpringLauncherUseCase: InitializeSpringLauncherUseCase,
 ) : ViewModel() {
 
-    private val _dateTime: MutableStateFlow<LocalDateTime> = MutableStateFlow(LocalDateTime.now())
+    private val _dateTime: MutableStateFlow<LocalDateTime> =
+        MutableStateFlow(getCurrentDateTime())
     val dateTime: StateFlow<LocalDateTime> = _dateTime.asStateFlow()
 
     val screenState: StateFlow<HomeScreenState?> =
@@ -72,7 +76,7 @@ class HomeScreenViewModel(
 
     private fun refreshTime() = viewModelScope.launch {
         while (isActive) {
-            _dateTime.update { LocalDateTime.now() }
+            _dateTime.update { getCurrentDateTime() }
             delay(1000)
         }
     }
@@ -100,6 +104,13 @@ class HomeScreenViewModel(
                 setApplicationUsageModeUseCase.execute(UsageMode.DEFAULT)
             }
         }
+    }
+
+    /**
+     * @return the current [LocalDateTime]
+     */
+    private fun getCurrentDateTime(): LocalDateTime {
+        return Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
     }
 }
 
