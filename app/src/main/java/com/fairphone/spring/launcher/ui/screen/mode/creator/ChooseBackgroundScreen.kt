@@ -38,13 +38,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
 import com.fairphone.spring.launcher.R
 import com.fairphone.spring.launcher.data.model.LauncherColors
@@ -84,16 +85,22 @@ fun ChooseBackgroundScreen(
     // This listener is used to change the scrollIndex when the user scroll to the right or the left
     val scrollListener = remember {
         object : NestedScrollConnection {
-            // We wait the end of the scroll
-            override suspend fun onPostFling(consumed: Velocity, available: Velocity): Velocity {
-                val minJump = if (consumed.x < 0) -1 else 1
-                // We compute the jump depending on the velocity
-                val jumpSize = (consumed.x / 2 / screenWidth).roundToInt()
-                // We always have a jump
-                val newIndex = scrollToIndex - if (jumpSize == 0) minJump else jumpSize
-                scrollToIndex =
-                    if (newIndex >= colorSize) colorSize - 1 else if (newIndex < 0) 0 else newIndex
-                return super.onPostFling(consumed, available)
+            override fun onPostScroll(
+                consumed: Offset,
+                available: Offset,
+                source: NestedScrollSource
+            ): Offset {
+                if (source == NestedScrollSource.SideEffect) {
+                    val minJump = if (consumed.x < 0) -1 else 1
+                    // We compute the jump depending on the velocity
+                    val jumpSize = (consumed.x / 2 / screenWidth).roundToInt()
+                    // We always have a jump
+                    val newIndex = scrollToIndex - if (jumpSize == 0) minJump else jumpSize
+                    // The new index depends on the color size. We have to stay in bounds
+                    scrollToIndex =
+                        if (newIndex >= colorSize) colorSize - 1 else if (newIndex < 0) 0 else newIndex
+                }
+                return super.onPostScroll(consumed, available, source)
             }
         }
     }
