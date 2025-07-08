@@ -106,4 +106,9 @@
     <string name="sound_and_vibration_vibrate_subtitle">Stäng av ljud och aktivera endast vibration</string>
     <string name="sound_and_vibration_silent_title">Tyst</string>
     <string name="sound_and_vibration_silent_subtitle">Inaktivera alla ljud och vibrationer</string>
+
+    <string name="setting_blue_light_filter_title">Blått ljusfilter</string>
+    <string name="setting_blue_light_filter_descritpion">Gör skärmen skonsam för dina ögon på natten</string>
+    <string name="setting_grayscale_title">Gråskala</string>
+    <string name="setting_grayscale_description">Färginställningar för svartvitt på skärmen.</string>
 </resources>

@@ -105,4 +105,9 @@
     <string name="sound_and_vibration_vibrate_subtitle">Töne stummschalten und nur Vibration aktivieren</string>
     <string name="sound_and_vibration_silent_title">Stummschalten</string>
     <string name="sound_and_vibration_silent_subtitle">Alle Töne und Vibrationen deaktivieren</string>
+
+    <string name="setting_blue_light_filter_title">Blaulichtfilter</string>
+    <string name="setting_blue_light_filter_descritpion">Entlastet Ihre Augen nachts beim Bildschirmlesen</string>
+    <string name="setting_grayscale_title">Graustufen</string>
+    <string name="setting_grayscale_description">Stellt Ihren Bildschirm auf Schwarzweiß um.</string>
 </resources>

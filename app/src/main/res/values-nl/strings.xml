@@ -105,4 +105,9 @@
     <string name="sound_and_vibration_vibrate_subtitle">Geluiden dempen en alleen trillen inschakelen</string>
     <string name="sound_and_vibration_silent_title">Stil</string>
     <string name="sound_and_vibration_silent_subtitle">Alle geluiden en trillingen uitschakelen</string>
+
+    <string name="setting_blue_light_filter_title">Blauwlichtfilter</string>
+    <string name="setting_blue_light_filter_descritpion">Maakt het scherm\'s nachts minder belastend voor je ogen</string>
+    <string name="setting_grayscale_title">Grijstinten</string>
+    <string name="setting_grayscale_description">Zet uw scherm in zwart-wit.</string>
 </resources>

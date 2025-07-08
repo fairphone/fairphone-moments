@@ -60,6 +60,7 @@ class InitializeSpringLauncherUseCase(
             wallpaperId = Defaults.DEFAULT_WALLPAPER_ID,
             uiMode = Defaults.DEFAULT_DARK_MODE_SETTING,
             blueLightFilterEnabled = Defaults.DEFAULT_BLUE_LIGHT_FILTER_ENABLED,
+            grayScaleEnabled = Defaults.DEFAULT_GRAY_SCALE_ENABLED,
             soundSetting = Defaults.DEFAULT_SOUND_SETTING,
             batterySaverEnabled = Defaults.BATTERY_SAVER_ENABLED,
             reduceBrightnessEnabled = Defaults.REDUCE_BRIGHTNESS_ENABLED,

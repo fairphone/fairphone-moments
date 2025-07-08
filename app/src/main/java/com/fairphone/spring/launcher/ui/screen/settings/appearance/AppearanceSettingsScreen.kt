@@ -24,12 +24,19 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.fairphone.spring.launcher.R
+import com.fairphone.spring.launcher.ui.FP6Preview
+import com.fairphone.spring.launcher.ui.FP6PreviewDark
 import com.fairphone.spring.launcher.ui.component.SettingListItem
+import com.fairphone.spring.launcher.ui.component.SettingSwitchItem
 import com.fairphone.spring.launcher.ui.theme.FairphoneTypography
 
 @Composable
 fun AppearanceSettingsScreen(
-    onCustomizeWallpaperClick: () -> Unit,
+    blueLightFilterEnabled: Boolean,
+    grayscaleEnabled: Boolean,
+    onBlueLightFilterClick: (Boolean) -> Unit,
+    onGrayscaleSwitchClick: (Boolean) -> Unit,
+    onCustomizeWallpaperClick: () -> Unit
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -58,5 +65,48 @@ fun AppearanceSettingsScreen(
                 )
                 .clip(RoundedCornerShape(size = 12.dp))
         )
+
+        SettingSwitchItem(
+            state = blueLightFilterEnabled,
+            title = stringResource(R.string.setting_blue_light_filter_title),
+            subtitle = stringResource(R.string.setting_blue_light_filter_descritpion),
+            onClick = onBlueLightFilterClick,
+            modifier = Modifier
+                .fillMaxWidth()
+                .border(
+                    width = 1.dp,
+                    color = MaterialTheme.colorScheme.outline,
+                    shape = RoundedCornerShape(size = 12.dp)
+                )
+                .clip(RoundedCornerShape(size = 12.dp))
+        )
+
+        SettingSwitchItem(
+            state = grayscaleEnabled,
+            title = stringResource(R.string.setting_grayscale_title),
+            subtitle = stringResource(R.string.setting_grayscale_description),
+            onClick = onGrayscaleSwitchClick,
+            modifier = Modifier
+                .fillMaxWidth()
+                .border(
+                    width = 1.dp,
+                    color = MaterialTheme.colorScheme.outline,
+                    shape = RoundedCornerShape(size = 12.dp)
+                )
+                .clip(RoundedCornerShape(size = 12.dp))
+        )
     }
+}
+
+@Composable
+@FP6Preview()
+@FP6PreviewDark()
+private fun AppearanceSettingsScreen_Preview() {
+    AppearanceSettingsScreen(
+        blueLightFilterEnabled = true,
+        grayscaleEnabled = false,
+        onBlueLightFilterClick = {},
+        onGrayscaleSwitchClick = {},
+        onCustomizeWallpaperClick = {}
+    )
 }

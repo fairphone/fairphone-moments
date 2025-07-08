@@ -24,7 +24,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class NotificationsSettingsViewModel(
-    context: Context,
     private val getEditedProfileUseCase: GetEditedProfileUseCase,
     private val updateLauncherProfileUseCase: UpdateLauncherProfileUseCase,
 ) : ViewModel() {
