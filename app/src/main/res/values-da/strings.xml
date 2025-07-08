@@ -105,4 +105,9 @@
     <string name="sound_and_vibration_vibrate_subtitle">Dæmp lyde og aktiver kun vibration</string>
     <string name="sound_and_vibration_silent_title">Lydløs</string>
     <string name="sound_and_vibration_silent_subtitle">Deaktiver alle lyde og vibrationer</string>
+
+    <string name="setting_blue_light_filter_title">Blåt lysfilter</string>
+    <string name="setting_blue_light_filter_descritpion">Gør skærmen skånsom for dine øjne om natten</string>
+    <string name="setting_grayscale_title">Gråskala</string>
+    <string name="setting_grayscale_description">Skifter din skærm til sort-hvid farveopsætning.</string>
 </resources>

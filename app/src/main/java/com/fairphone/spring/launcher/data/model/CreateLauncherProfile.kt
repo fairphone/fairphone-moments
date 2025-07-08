@@ -29,6 +29,7 @@ data class CreateLauncherProfile(
     val wallpaperId: Int,
     val uiMode: UiMode,
     val blueLightFilterEnabled: Boolean,
+    val grayScaleEnabled: Boolean,
     val soundSetting: SoundSetting,
     val batterySaverEnabled: Boolean,
     val reduceBrightnessEnabled: Boolean,

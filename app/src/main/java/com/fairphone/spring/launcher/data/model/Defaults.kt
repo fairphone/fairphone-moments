@@ -34,6 +34,7 @@ object Defaults {
     const val DEFAULT_WALLPAPER_ID = 0
     val DEFAULT_DARK_MODE_SETTING = UiMode.UI_MODE_SYSTEM
     const val DEFAULT_BLUE_LIGHT_FILTER_ENABLED = false
+    const val DEFAULT_GRAY_SCALE_ENABLED = false
     val DEFAULT_SOUND_SETTING = SoundSetting.SOUND_SETTING_FOLLOW_DEVICE_SETTINGS
     const val BATTERY_SAVER_ENABLED = false
     const val REDUCE_BRIGHTNESS_ENABLED = false

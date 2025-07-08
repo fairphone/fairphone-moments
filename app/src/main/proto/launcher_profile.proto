@@ -36,6 +36,7 @@ message LauncherProfile {
     bool airplaneModeEnabled = 19;
     string zenRuleId = 20;
     repeated LauncherProfileApp launcher_profile_apps = 21;
+    bool grayScaleEnabled = 22;
 }
 
 message LauncherProfileApp {

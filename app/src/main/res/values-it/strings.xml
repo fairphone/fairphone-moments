@@ -85,6 +85,7 @@
     <plurals name="setting_notifications_nb_allowed">
         <item quantity="one">%1$d consentita</item>
         <item quantity="other">%1$d consentite</item>
+        <item quantity="many">%1$d consentite</item>
     </plurals>
     <string name="app_notifications_permission_header">Permessi</string>
     <string name="app_notifications_permission_text">Affinché questa impostazione funzioni, Fairphone Moments deve avere i permessi per filtrare e ripubblicare le tue notifiche</string>
@@ -106,4 +107,9 @@
     <string name="sound_and_vibration_vibrate_subtitle">Disattiva i suoni e attiva solo la vibrazione</string>
     <string name="sound_and_vibration_silent_title">Silenzio</string>
     <string name="sound_and_vibration_silent_subtitle">Disattiva tutti i suoni e le vibrazioni</string>
+
+    <string name="setting_blue_light_filter_title">Filtro luce blu</string>
+    <string name="setting_blue_light_filter_descritpion">Rende lo schermo meno affaticante per gli occhi di notte</string>
+    <string name="setting_grayscale_title">Scala di grigi</string>
+    <string name="setting_grayscale_description">Trasforma lo schermo in bianco e nero.</string>
 </resources>

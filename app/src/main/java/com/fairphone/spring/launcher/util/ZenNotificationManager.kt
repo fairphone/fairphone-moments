@@ -11,6 +11,7 @@ package com.fairphone.spring.launcher.util
 import android.app.AutomaticZenRule
 import android.content.ComponentName
 import android.content.Context
+import android.provider.Settings
 import android.service.notification.Condition
 import android.service.notification.ZenDeviceEffects
 import android.service.notification.ZenPolicy
@@ -31,6 +32,7 @@ class ZenNotificationManager(
 
     companion object {
         val ZEN_RULE_CONDITION_ID = "com.fairphone.moments".toUri()
+        const val SETTING_BLUE_FILTER = "night_display_activated";
     }
 
     /**
@@ -47,6 +49,8 @@ class ZenNotificationManager(
         withContext(Dispatchers.Main) {
             enableDnd(zenRuleId = profile.zenRuleId, name = profile.name)
         }
+
+        setBlueLightFilterEnabled(profile.blueLightFilterEnabled)
     }
 
     /**
@@ -63,6 +67,8 @@ class ZenNotificationManager(
         withContext(Dispatchers.Main) {
             disableDnd(zenRuleId = profile.zenRuleId, name = profile.name)
         }
+
+        setBlueLightFilterEnabled(false)
     }
 
     /**
@@ -79,6 +85,8 @@ class ZenNotificationManager(
                 disableDnd(zenRuleId = ruleId, name = rule.name)
             }
         }
+
+        setBlueLightFilterEnabled(false)
     }
 
     /**
@@ -96,6 +104,7 @@ class ZenNotificationManager(
             allowedContacts = profile.allowedContacts,
             uiMode = profile.uiMode,
             repeatCallEnabled = profile.repeatCallEnabled,
+            isGrayScaleEnabled = profile.grayScaleEnabled,
         )
         return context.notificationManager().addAutomaticZenRule(zenRule)
     }
@@ -115,6 +124,7 @@ class ZenNotificationManager(
             allowedContacts = profile.allowedContacts,
             uiMode = profile.uiMode,
             repeatCallEnabled = profile.repeatCallEnabled,
+            isGrayScaleEnabled = profile.grayScaleEnabled,
         )
 
         if (context.isAppDefaultLauncher()) {
@@ -135,6 +145,7 @@ class ZenNotificationManager(
         allowedContacts: ContactType,
         uiMode: UiMode,
         repeatCallEnabled: Boolean,
+        isGrayScaleEnabled: Boolean,
     ): Result<AutomaticZenRule> {
         // Check if Do Not Disturb permission is granted
         check(context.isDoNotDisturbAccessGranted())
@@ -146,6 +157,7 @@ class ZenNotificationManager(
             allowedContacts = allowedContacts,
             uiMode = uiMode,
             repeatCallEnabled = repeatCallEnabled,
+            isGrayScaleEnabled = isGrayScaleEnabled,
         )
         val result = context.notificationManager().updateAutomaticZenRule(zenRuleId, updatedZenRule)
 
@@ -234,11 +246,15 @@ class ZenNotificationManager(
         name: String,
         allowedContacts: ContactType,
         uiMode: UiMode,
+        isGrayScaleEnabled: Boolean,
         repeatCallEnabled: Boolean,
     ): AutomaticZenRule {
         val configActivity = getConfigurationActivity(context)
         val zenPolicy = createZenPolicy(allowedContacts, repeatCallEnabled)
-        val zenDeviceEffects = createZenDeviceEffects(uiMode)
+        val zenDeviceEffects = createZenDeviceEffects(
+            uiMode = uiMode,
+            isGrayScaleEnabled = isGrayScaleEnabled
+        )
 
         return AutomaticZenRule.Builder(name, ZEN_RULE_CONDITION_ID)
             .setConfigurationActivity(configActivity)
@@ -279,10 +295,18 @@ class ZenNotificationManager(
         return builder.build()
     }
 
-    private fun createZenDeviceEffects(uiMode: UiMode): ZenDeviceEffects {
+    private fun createZenDeviceEffects(uiMode: UiMode, isGrayScaleEnabled: Boolean): ZenDeviceEffects {
         return ZenDeviceEffects.Builder()
             .setShouldUseNightMode(uiMode == UiMode.UI_MODE_DARK)
+            .setShouldDisplayGrayscale(isGrayScaleEnabled)
             .build()
     }
 
+    private fun setBlueLightFilterEnabled(enable: Boolean) {
+        Settings.Secure.putInt(
+            context.contentResolver,
+            SETTING_BLUE_FILTER,
+            if (enable) 1 else 0
+        )
+    }
 }

@@ -18,6 +18,7 @@ import androidx.navigation.compose.composable
 import com.fairphone.spring.launcher.R
 import com.fairphone.spring.launcher.ui.screen.mode.creator.ChooseBackgroundScreen
 import com.fairphone.spring.launcher.ui.screen.settings.appearance.AppearanceSettingsScreen
+import com.fairphone.spring.launcher.ui.screen.settings.appearance.AppearenceSettingsViewModel
 import com.fairphone.spring.launcher.ui.screen.settings.appearance.WallpaperSettingScreenState
 import com.fairphone.spring.launcher.ui.screen.settings.appearance.WallpaperSettingsViewModel
 import kotlinx.serialization.Serializable
@@ -32,11 +33,24 @@ object AppearanceSettings
 fun NavGraphBuilder.appearenceSettingsNavGraph(navController: NavHostController) {
 
     composable<AppearanceSettings> {
-        AppearanceSettingsScreen(
-            onCustomizeWallpaperClick = {
-                navController.navigate(WallpaperSettings)
-            }
-        )
+        val viewModel: AppearenceSettingsViewModel = koinViewModel()
+        val activeProfile by viewModel.editedProfile.collectAsStateWithLifecycle()
+
+        if (activeProfile != null) {
+            AppearanceSettingsScreen(
+                blueLightFilterEnabled = activeProfile!!.blueLightFilterEnabled,
+                grayscaleEnabled = activeProfile!!.grayScaleEnabled,
+                onBlueLightFilterClick = {
+                    viewModel.updateBlueLightFilter(it)
+                },
+                onGrayscaleSwitchClick = {
+                    viewModel.updateGrayscaleIndicator(it)
+                },
+                onCustomizeWallpaperClick = {
+                    navController.navigate(WallpaperSettings)
+                }
+            )
+        }
     }
 
     composable<WallpaperSettings> {

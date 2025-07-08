@@ -189,6 +189,7 @@ class CreateModeViewModel(
             repeatCallEnabled = Defaults.DEFAULT_REPEAT_CALL_ENABLED,
             wallpaperId = Defaults.DEFAULT_WALLPAPER_ID,
             uiMode = Defaults.DEFAULT_DARK_MODE_SETTING,
+            grayScaleEnabled = Defaults.DEFAULT_GRAY_SCALE_ENABLED,
             blueLightFilterEnabled = Defaults.DEFAULT_BLUE_LIGHT_FILTER_ENABLED,
             soundSetting = Defaults.DEFAULT_SOUND_SETTING,
             batterySaverEnabled = Defaults.BATTERY_SAVER_ENABLED,

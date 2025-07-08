@@ -125,4 +125,8 @@
     <string name="sound_and_vibration_vibrate_subtitle">Mute sounds and enable vibration only</string>
     <string name="sound_and_vibration_silent_title">Silent</string>
     <string name="sound_and_vibration_silent_subtitle">Disable all sounds and vibrations</string>
+    <string name="setting_blue_light_filter_title">Blue light filter</string>
+    <string name="setting_blue_light_filter_descritpion">Makes the screen easier on your eyes at night</string>
+    <string name="setting_grayscale_title">Grayscale</string>
+    <string name="setting_grayscale_description">Turns your screen in black and white color setup</string>
 </resources>

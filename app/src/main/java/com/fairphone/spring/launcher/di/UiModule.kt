@@ -14,6 +14,7 @@ import com.fairphone.spring.launcher.ui.screen.mode.creator.CreateModeViewModel
 import com.fairphone.spring.launcher.ui.screen.mode.switcher.ModeSwitcherViewModel
 import com.fairphone.spring.launcher.ui.screen.onboarding.OnBoardingStatusViewModel
 import com.fairphone.spring.launcher.ui.screen.onboarding.OnBoardingViewModel
+import com.fairphone.spring.launcher.ui.screen.settings.appearance.AppearenceSettingsViewModel
 import com.fairphone.spring.launcher.ui.screen.settings.appearance.WallpaperSettingsViewModel
 import com.fairphone.spring.launcher.ui.screen.settings.apps.VisibleAppSettingsViewModel
 import com.fairphone.spring.launcher.ui.screen.settings.apps.selector.VisibleAppSelectorViewModel
@@ -42,4 +43,5 @@ val uiModule = module {
     viewModelOf(::OnBoardingStatusViewModel)
     viewModelOf(::WallpaperSettingsViewModel)
     viewModelOf(::SoundVibrationSettingsViewModel)
+    viewModelOf(::AppearenceSettingsViewModel)
 }
