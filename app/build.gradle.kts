@@ -88,6 +88,12 @@ android {
             isMinifyEnabled = false
             isShrinkResources = false
         }
+        create("staging") {
+            isDebuggable = true
+            isMinifyEnabled = false
+            isShrinkResources = false
+            signingConfig = signingConfigs.getByName("release")
+        }
     }
 
     compileOptions {
