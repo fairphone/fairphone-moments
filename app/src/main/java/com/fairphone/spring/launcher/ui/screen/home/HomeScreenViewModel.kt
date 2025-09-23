@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FairPhone B.V.
+ * Copyright (C) 2026 FairPhone B.V.
  *
  * SPDX-FileCopyrightText: 2025. FairPhone B.V.
  *
@@ -116,7 +116,7 @@ class HomeScreenViewModel(
 
 data class HomeScreenState(
     val activeProfile: LauncherProfile,
-    val visibleApps: List<AppInfo> = emptyList(),
+    val visibleApps: List<AppInfo>,
+    val appUsageMode: UsageMode,
     val isRetailDemoMode: Boolean = false,
-    val appUsageMode: UsageMode = UsageMode.ON_BOARDING
 )

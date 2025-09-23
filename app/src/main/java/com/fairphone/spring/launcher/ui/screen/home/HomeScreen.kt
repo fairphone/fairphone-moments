@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FairPhone B.V.
+ * Copyright (C) 2026 FairPhone B.V.
  *
  * SPDX-FileCopyrightText: 2025. FairPhone B.V.
  *
@@ -244,12 +244,14 @@ fun LauncherAppButton_PreviewDark() {
 }
 
 @Composable
+@FP6Preview
+@FP6PreviewDark
 fun HomeScreen_Preview() {
     SpringLauncherTheme {
         HomeScreen(
             isContentVisible = true,
             dateTime = LocalDateTime(2025, 2, 13, 12, 30),
-            appUsageMode = UsageMode.DEFAULT,
+            appUsageMode = UsageMode.ON_BOARDING,
             activeProfile = Mock_Profile,
             appList = previewAppList(LocalContext.current),
             isRetailDemoMode = false,
@@ -260,18 +262,6 @@ fun HomeScreen_Preview() {
             onTimeClick = {},
         )
     }
-}
-
-@Composable
-@FP6Preview
-fun HomeScreen_PreviewLight() {
-    HomeScreen_Preview()
-}
-
-@Composable
-@FP6PreviewDark
-fun HomeScreen_PreviewDark() {
-    HomeScreen_Preview()
 }
 
 fun previewAppList(context: Context) = listOf(

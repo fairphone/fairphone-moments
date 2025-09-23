@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FairPhone B.V.
+ * Copyright (C) 2026 FairPhone B.V.
  *
  * SPDX-FileCopyrightText: 2025. FairPhone B.V.
  *
@@ -8,16 +8,12 @@
 
 package com.fairphone.spring.launcher.ui.theme
 
-import androidx.activity.ComponentActivity
-import androidx.activity.SystemBarStyle
-import androidx.activity.compose.LocalActivity
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.compositionLocalOf
 
 private val lightScheme = lightColorScheme(
     primary = primaryLight,
@@ -105,24 +101,14 @@ fun SpringLauncherTheme(
         else -> lightScheme
     }
 
-    val context = LocalActivity.current as? ComponentActivity
-
-    LaunchedEffect(Unit) {
-        context?.enableEdgeToEdge(
-            statusBarStyle = SystemBarStyle.auto(
-                android.graphics.Color.TRANSPARENT,
-                android.graphics.Color.TRANSPARENT
-            ),
-            navigationBarStyle = SystemBarStyle.auto(
-                android.graphics.Color.TRANSPARENT,
-                android.graphics.Color.TRANSPARENT
-            )
-        )
-    }
-
     MaterialTheme(
         colorScheme = colorScheme,
         typography = LauncherTypography,
         content = content
     )
 }
+
+/**
+ * CompositionLocal to provide the current theme preference (dark or light).
+ */
+val LocalUseDarkTheme = compositionLocalOf { false }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FairPhone B.V.
+ * Copyright (C) 2026 FairPhone B.V.
  *
  * SPDX-FileCopyrightText: 2025. FairPhone B.V.
  *
@@ -17,8 +17,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.fairphone.spring.launcher.ui.component.ScreenViewTracker
+import com.fairphone.spring.launcher.ui.component.SystemUiController
 import com.fairphone.spring.launcher.ui.screen.settings.main.ProfileSettingsScreen
 import com.fairphone.spring.launcher.ui.screen.settings.main.ProfileSettingsViewModel
+import com.fairphone.spring.launcher.ui.theme.LocalUseDarkTheme
 import kotlinx.serialization.Serializable
 import org.koin.androidx.compose.koinViewModel
 
@@ -33,6 +35,9 @@ fun SettingsNavigation(
     navController: NavHostController,
     onCloseSettings: () -> Unit
 ) {
+    val useDarkTheme = LocalUseDarkTheme.current
+    SystemUiController(useDarkIcons = !useDarkTheme)
+
     ScreenViewTracker(navController = navController)
 
     NavHost(

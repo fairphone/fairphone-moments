@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FairPhone B.V.
+ * Copyright (C) 2026 FairPhone B.V.
  *
  * SPDX-FileCopyrightText: 2025. FairPhone B.V.
  *
@@ -10,14 +10,19 @@ package com.fairphone.spring.launcher.activity
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
+import com.fairphone.spring.launcher.analytics.FirebaseAnalyticsService
+import com.fairphone.spring.launcher.analytics.LocalAnalyticsService
 import com.fairphone.spring.launcher.ui.screen.settings.LauncherSettingsScreen
+import com.fairphone.spring.launcher.ui.theme.LocalUseDarkTheme
 import com.fairphone.spring.launcher.ui.theme.SpringLauncherTheme
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.analytics
 
 class LauncherSettingsActivity : ComponentActivity() {
 
@@ -39,17 +44,20 @@ class LauncherSettingsActivity : ComponentActivity() {
             android.R.anim.fade_in,
             android.R.anim.fade_out
         )
-        enableEdgeToEdge(
-            statusBarStyle = SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT),
-            navigationBarStyle = SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT)
-        )
 
         super.onCreate(savedInstanceState)
         setContent {
-            SpringLauncherTheme {
-                LauncherSettingsScreen(
-                    onCloseSettings = { finish() }
-                )
+            val analyticsService = remember { FirebaseAnalyticsService(Firebase.analytics) }
+            CompositionLocalProvider(LocalAnalyticsService provides analyticsService) {
+                CompositionLocalProvider(LocalUseDarkTheme provides isSystemInDarkTheme()) {
+                    SpringLauncherTheme(darkTheme = isSystemInDarkTheme()) {
+                        SpringLauncherTheme {
+                            LauncherSettingsScreen(
+                                onCloseSettings = { finish() }
+                            )
+                        }
+                    }
+                }
             }
         }
     }
