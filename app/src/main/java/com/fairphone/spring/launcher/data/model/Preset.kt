@@ -108,8 +108,8 @@ val Mock_Profile = launcherProfile {
     id = "spring"
     name = "Spring"
     icon = "Spring"
-    bgColor1 = 0xB2C3D1D0
-    bgColor2 = 0xB2FFBA63
+    bgColor1 = 0xFF14241E
+    bgColor2 = 0xFF0B1410
     allowedContacts = ContactType.CONTACT_TYPE_CUSTOM
     customContacts.addAll(listOf("Contact 1", "Contact 2", "Contact 3"))
 }

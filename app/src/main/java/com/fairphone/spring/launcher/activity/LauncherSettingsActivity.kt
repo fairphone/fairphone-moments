@@ -10,12 +10,9 @@ package com.fairphone.spring.launcher.activity
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import com.fairphone.spring.launcher.ui.screen.settings.LauncherSettingsScreen
 import com.fairphone.spring.launcher.ui.theme.SpringLauncherTheme
 
@@ -38,10 +35,6 @@ class LauncherSettingsActivity : ComponentActivity() {
             OVERRIDE_TRANSITION_CLOSE,
             android.R.anim.fade_in,
             android.R.anim.fade_out
-        )
-        enableEdgeToEdge(
-            statusBarStyle = SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT),
-            navigationBarStyle = SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT)
         )
 
         super.onCreate(savedInstanceState)

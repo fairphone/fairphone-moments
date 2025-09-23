@@ -160,7 +160,7 @@ fun CurrentModeButtonTooltip(
                     .drawBehind(drawCaret(anchorBounds, density, isDark)),
 
                 colors = TooltipDefaults.richTooltipColors().copy(
-                    containerColor = if (isSystemInDarkTheme()) homeButtonBackgroundDarkColor else homeButtonBackgroundLightColor,
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
                     contentColor = MaterialTheme.colorScheme.onSurface
                 ),
             ) {
@@ -168,7 +168,7 @@ fun CurrentModeButtonTooltip(
                     modifier = Modifier.padding(vertical = 8.dp),
                 ) {
                     Text(
-                        text = dynamicText.toString(),
+                        text = dynamicText,
                         modifier = Modifier.weight(4.0f),
                         textAlign = TextAlign.Center,
                     )
@@ -271,36 +271,21 @@ private fun CurrentModeButton_Preview(usageMode: UsageMode) {
 
 @Composable
 @FP6Preview
-private fun CurrentModeButton_OnBoardingLightPreview() {
-    CurrentModeButton_Preview(UsageMode.ON_BOARDING)
-}
-
-@Composable
 @FP6PreviewDark
-private fun CurrentModeButton_OnBoardingDarkPreview() {
-    CurrentModeButton_Preview(UsageMode.ON_BOARDING)
-}
-
-@Composable
-@FP6Preview
 private fun CurrentModeButton_DefaultLightPreview() {
     CurrentModeButton_Preview(UsageMode.DEFAULT)
 }
 
 @Composable
+@FP6Preview
 @FP6PreviewDark
-private fun CurrentModeButton_DefaultDarkPreview() {
-    CurrentModeButton_Preview(UsageMode.DEFAULT)
+private fun CurrentModeButton_OnBoardingLightPreview() {
+    CurrentModeButton_Preview(UsageMode.ON_BOARDING)
 }
 
 @Composable
 @FP6Preview
-private fun CurrentModeButton_OnBoardingCompleteLightPreview() {
-    CurrentModeButton_Preview(UsageMode.ON_BOARDING_COMPLETE)
-}
-
-@Composable
 @FP6PreviewDark
-private fun CurrentModeButton_OnBoardingCompleteDarkPreview() {
+private fun CurrentModeButton_OnBoardingCompleteLightPreview() {
     CurrentModeButton_Preview(UsageMode.ON_BOARDING_COMPLETE)
 }
