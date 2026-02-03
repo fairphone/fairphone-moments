@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-  ~ Copyright (C) 2025 FairPhone B.V.
+  ~ Copyright (C) 2026 FairPhone B.V.
   ~
   ~ SPDX-FileCopyrightText: 2025. FairPhone B.V.
   ~
@@ -53,7 +53,7 @@
     <string name="setting_subtitle_sound_and_vibration">Geräteeinstellungen anpassen</string>
     <string name="setting_subtitle_power_saving">Sparen Sie Strom und verlängern Sie die Akkulaufzeit</string>
     <string name="setting_subtitle_appearance">Ändern Sie das Erscheinungsbild nach Ihren Wünschen</string>
-    <string name="setting_button_delete_mode_not_allowed">Dies ist Ihr einziger Moment. Es kann nicht gelöscht werden.</string>
+    <string name="setting_button_delete_mode_not_allowed">Dies ist Ihr einziger Moment. Er kann nicht gelöscht werden.</string>
     <string name="profile_switch_state_enabled">%1$s\naktiviert</string>
     <string name="profile_switch_state_disabled">%1$s\ndeaktiviert</string>
     <string name="do_not_disturb_access_rationale_title">Zugriff auf „Nicht stören“ erforderlich</string>
