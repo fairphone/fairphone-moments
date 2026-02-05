@@ -16,6 +16,7 @@ SPDX-License-Identifier = "OFL-1.1"
 path = [
     "README.md",
     "NOTICES.md",
+    "AGENTS.md"
 ]
 precedence = "override"
 SPDX-FileCopyrightText = "2025. FairPhone B.V."
