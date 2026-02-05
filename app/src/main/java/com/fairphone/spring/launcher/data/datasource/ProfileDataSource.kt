@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FairPhone B.V.
+ * Copyright (C) 2026 FairPhone B.V.
  *
  * SPDX-FileCopyrightText: 2025. FairPhone B.V.
  *
@@ -54,7 +54,7 @@ class ProfileDataSourceImpl(private val dataStore: DataStore<LauncherProfiles>) 
             val profileList = profile.profilesList
             if (profileList.isNotEmpty()) {
                 val editedProfile = profile.profilesList.firstOrNull { it.id == profile.edited }
-                    ?: profile.profilesList.first { it.id == profile.active }
+                    ?: profile.profilesList.firstOrNull { it.id == profile.active }
                     ?: profile.profilesList.first()
                 emit(editedProfile)
             }
