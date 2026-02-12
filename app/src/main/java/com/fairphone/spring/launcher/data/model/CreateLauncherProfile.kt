@@ -9,6 +9,7 @@
 package com.fairphone.spring.launcher.data.model
 
 import com.fairphone.spring.launcher.data.model.protos.ContactType
+import com.fairphone.spring.launcher.data.model.protos.LauncherProfile
 import com.fairphone.spring.launcher.data.model.protos.LauncherProfileApp
 import com.fairphone.spring.launcher.data.model.protos.SoundSetting
 import com.fairphone.spring.launcher.data.model.protos.UiMode
@@ -29,7 +30,30 @@ data class CreateLauncherProfile(
     val wallpaperId: Int,
     val uiMode: UiMode,
     val blueLightFilterEnabled: Boolean,
+    val grayScaleEnabled: Boolean,
     val soundSetting: SoundSetting,
     val batterySaverEnabled: Boolean,
     val reduceBrightnessEnabled: Boolean,
 )
+
+/**
+ * Extension function to convert a [CreateLauncherProfile] to a [LauncherProfile].
+ */
+fun CreateLauncherProfile.toLauncherProfile(): LauncherProfile = LauncherProfile.newBuilder()
+    .setId(id)
+    .setName(name)
+    .setIcon(icon)
+    .setBgColor1(bgColor1)
+    .setBgColor2(bgColor2)
+    .addAllLauncherProfileApps(launcherProfileApps)
+    .setAllowedContacts(allowedContacts)
+    .addAllCustomContacts(customContacts)
+    .setRepeatCallEnabled(repeatCallEnabled)
+    .setWallpaperId(wallpaperId)
+    .setUiMode(uiMode)
+    .setBlueLightFilterEnabled(blueLightFilterEnabled)
+    .setGrayScaleEnabled(grayScaleEnabled)
+    .setSoundSetting(soundSetting)
+    .setBatterySaverEnabled(batterySaverEnabled)
+    .setReduceBrightnessEnabled(reduceBrightnessEnabled)
+    .build()
