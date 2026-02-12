@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FairPhone B.V.
+ * Copyright (C) 2026 FairPhone B.V.
  *
  * SPDX-FileCopyrightText: 2025. FairPhone B.V.
  *
@@ -61,7 +61,7 @@ class DeviceContactDataSourceImpl(
                     val photoUri = cursor.getStringOrNull(photoThumbnailUriColumn)
                         ?: cursor.getStringOrNull(photoUriColumn)
 
-                    val lookupUri = ContactsContract.Contacts.getLookupUri(id.toLong(), lookupKey)
+                    val lookupUri = ContactsContract.Contacts.getLookupUri(id, lookupKey)
 
                     val contactInfo = ContactInfo(
                         id = id.toString(),
