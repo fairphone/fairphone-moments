@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FairPhone B.V.
+ * Copyright (C) 2026 FairPhone B.V.
  *
  * SPDX-FileCopyrightText: 2025. FairPhone B.V.
  *
@@ -9,11 +9,11 @@
 package com.fairphone.spring.launcher.domain.usecase.profile
 
 import android.content.Context
-import android.util.Log
 import com.fairphone.spring.launcher.R
 import com.fairphone.spring.launcher.data.model.CreateLauncherProfile
 import com.fairphone.spring.launcher.data.model.Defaults
 import com.fairphone.spring.launcher.data.model.LauncherColors
+import com.fairphone.spring.launcher.data.model.protos.LauncherProfile
 import com.fairphone.spring.launcher.data.model.protos.launcherProfileApp
 import com.fairphone.spring.launcher.domain.usecase.base.UseCase
 import com.fairphone.spring.launcher.util.isDoNotDisturbAccessGranted
@@ -23,10 +23,9 @@ class InitializeSpringLauncherUseCase(
     private val context: Context,
     private val createLauncherProfileUseCase: CreateLauncherProfileUseCase,
     private val getAllProfilesUseCase: GetAllProfilesUseCase,
-    private val setActiveProfileUseCase: SetActiveProfileUseCase,
-) : UseCase<Unit, Unit>() {
+) : UseCase<Unit, LauncherProfile>() {
 
-    override suspend fun execute(params: Unit): Result<Unit> {
+    override suspend fun execute(params: Unit): Result<LauncherProfile> {
         val profiles = getAllProfilesUseCase.execute(Unit).first()
         if (profiles.isNotEmpty()) {
             return Result.failure(IllegalStateException("App already initialized"))
@@ -41,7 +40,7 @@ class InitializeSpringLauncherUseCase(
         }
     }
 
-    private suspend fun createDefaultProfile(context: Context): Result<Unit> {
+    private suspend fun createDefaultProfile(context: Context): Result<LauncherProfile> {
         val essentials = CreateLauncherProfile(
             id = CreateLauncherProfileUseCase.newId(),
             name = context.getString(R.string.default_profile_name),
@@ -66,22 +65,6 @@ class InitializeSpringLauncherUseCase(
             batterySaverEnabled = Defaults.BATTERY_SAVER_ENABLED,
             reduceBrightnessEnabled = Defaults.REDUCE_BRIGHTNESS_ENABLED,
         )
-        val result = createLauncherProfileUseCase.execute(essentials)
-
-        return when  {
-            result.isFailure -> {
-                Log.e("InitializeSpringLauncher", "createDefaultProfile: ${result.exceptionOrNull()}", result.exceptionOrNull())
-                Result.failure(result.exceptionOrNull() ?: Exception())
-            }
-            result.isSuccess -> {
-                Log.d("InitializeSpringLauncher", "createDefaultProfile: Success")
-                result.getOrNull()?.let { setActiveProfileUseCase.execute(it.id) }
-
-                Result.success(Unit)
-            }
-            else -> Result.success(Unit)
-        }
-
-
+        return createLauncherProfileUseCase.execute(essentials)
     }
 }
