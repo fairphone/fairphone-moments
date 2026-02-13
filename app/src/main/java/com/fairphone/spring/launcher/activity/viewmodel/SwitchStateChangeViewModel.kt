@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FairPhone B.V.
+ * Copyright (C) 2026 FairPhone B.V.
  *
  * SPDX-FileCopyrightText: 2025. FairPhone B.V.
  *
@@ -17,7 +17,7 @@ import com.fairphone.spring.launcher.analytics.AnalyticsEvent
 import com.fairphone.spring.launcher.analytics.AnalyticsService
 import com.fairphone.spring.launcher.data.model.SwitchState
 import com.fairphone.spring.launcher.data.model.protos.LauncherProfile
-import com.fairphone.spring.launcher.domain.usecase.EnableDndUseCase
+import com.fairphone.spring.launcher.domain.usecase.ToggleDndUseCase
 import com.fairphone.spring.launcher.domain.usecase.profile.GetActiveProfileUseCase
 import com.fairphone.spring.launcher.domain.usecase.profile.InitializeSpringLauncherUseCase
 import com.fairphone.spring.launcher.receiver.CallInterceptorReceiver
@@ -33,7 +33,7 @@ import kotlin.time.ExperimentalTime
 
 class SwitchStateChangeViewModel(
     private val getActiveProfileUseCase: GetActiveProfileUseCase,
-    private val enableDndUseCase: EnableDndUseCase,
+    private val toggleDndUseCase: ToggleDndUseCase,
     private val initializeSpringLauncherUseCase: InitializeSpringLauncherUseCase,
     private val analyticsService: AnalyticsService,
 ) : ViewModel() {
@@ -59,7 +59,7 @@ class SwitchStateChangeViewModel(
             SwitchState.ENABLED -> true
             SwitchState.DISABLED -> false
         }
-        enableDndUseCase.execute(enableDnd)
+        toggleDndUseCase.execute(enableDnd)
         // Don't disable components for now since it is changing the Notification Access Permission State
         // handleNotificationInterceptorStates(context, enableDnd)
     }

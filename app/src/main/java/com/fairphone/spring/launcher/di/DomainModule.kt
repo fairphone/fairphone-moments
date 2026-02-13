@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FairPhone B.V.
+ * Copyright (C) 2026 FairPhone B.V.
  *
  * SPDX-FileCopyrightText: 2025. FairPhone B.V.
  *
@@ -8,7 +8,7 @@
 
 package com.fairphone.spring.launcher.di
 
-import com.fairphone.spring.launcher.domain.usecase.EnableDndUseCase
+import com.fairphone.spring.launcher.domain.usecase.ToggleDndUseCase
 import com.fairphone.spring.launcher.domain.usecase.contacts.GetAllContactsUseCase
 import com.fairphone.spring.launcher.domain.usecase.profile.CreateLauncherProfileUseCase
 import com.fairphone.spring.launcher.domain.usecase.profile.DeleteLauncherProfileUseCase
@@ -27,7 +27,7 @@ import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 
 val domainModule = module {
-    factoryOf(::EnableDndUseCase)
+    factoryOf(::ToggleDndUseCase)
     factoryOf(::CreateLauncherProfileUseCase)
     factoryOf(::UpdateLauncherProfileUseCase)
     factoryOf(::GetActiveProfileUseCase)
