@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FairPhone B.V.
+ * Copyright (C) 2026 FairPhone B.V.
  *
  * SPDX-FileCopyrightText: 2025. FairPhone B.V.
  *
@@ -14,19 +14,19 @@ import com.fairphone.spring.launcher.util.ZenNotificationManager
 import kotlinx.coroutines.flow.firstOrNull
 
 /**
- * Use case to enable or disable Do Not Disturb mode for the active profile.
+ * [UseCase] to enable or disable Do Not Disturb mode for the active profile.
  */
-class EnableDndUseCase(
+class ToggleDndUseCase(
     private val zenNotificationManager: ZenNotificationManager,
     private val profileRepository: LauncherProfileRepository,
 ) : UseCase<Boolean, Unit>() {
 
     override suspend fun execute(params: Boolean): Result<Unit> {
         return try {
-            val activeProfile = profileRepository.getActiveProfile().firstOrNull()
-                ?: return Result.failure(Exception("No active profile found"))
-
             if (params) {
+                val activeProfile = profileRepository.getActiveProfile().firstOrNull()
+                    ?: return Result.failure(Exception("No active profile found"))
+
                 zenNotificationManager.enableDnd(activeProfile)
             } else {
                 zenNotificationManager.disableAllDnd()
