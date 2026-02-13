@@ -23,7 +23,7 @@ class ToggleDndUseCase(
 
     override suspend fun execute(params: Boolean): Result<Unit> {
         return try {
-           if (params) {
+            if (params) {
                 val activeProfile = profileRepository.getActiveProfile().firstOrNull()
                     ?: return Result.failure(Exception("No active profile found"))
 
