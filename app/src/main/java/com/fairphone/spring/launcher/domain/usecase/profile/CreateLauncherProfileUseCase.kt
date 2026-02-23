@@ -10,48 +10,37 @@ package com.fairphone.spring.launcher.domain.usecase.profile
 
 import com.fairphone.spring.launcher.data.model.CreateLauncherProfile
 import com.fairphone.spring.launcher.data.model.protos.LauncherProfile
-import com.fairphone.spring.launcher.data.model.protos.launcherProfile
+import com.fairphone.spring.launcher.data.model.toLauncherProfile
 import com.fairphone.spring.launcher.data.repository.LauncherProfileRepository
 import com.fairphone.spring.launcher.domain.usecase.base.UseCase
 import com.fairphone.spring.launcher.util.ZenNotificationManager
 import java.util.UUID
 
 /**
- * Use case to create a new launcher profile.
+ * [UseCase] to create a new launcher profile.
  */
 class CreateLauncherProfileUseCase(
     private val launcherProfileRepository: LauncherProfileRepository,
     private val zenNotificationManager: ZenNotificationManager,
 ) : UseCase<CreateLauncherProfile, LauncherProfile>() {
 
-    override suspend fun execute(createLauncherProfile: CreateLauncherProfile): Result<LauncherProfile> {
+    override suspend fun execute(params: CreateLauncherProfile): Result<LauncherProfile> {
         return try {
-            // Create automatic zen rule
-            val createdZenRuleId = zenNotificationManager.createAutomaticZenRule(createLauncherProfile)
+            val launcherProfile = params.toLauncherProfile()
 
-            // Create launcher profile
-            val launcherProfile = launcherProfile {
-                id = createLauncherProfile.id
-                name = createLauncherProfile.name
-                icon = createLauncherProfile.icon
-                bgColor1 = createLauncherProfile.bgColor1
-                bgColor2 = createLauncherProfile.bgColor2
-                launcherProfileApps.addAll(createLauncherProfile.launcherProfileApps)
-                allowedContacts = createLauncherProfile.allowedContacts
-                customContacts.addAll(createLauncherProfile.customContacts)
-                repeatCallEnabled = createLauncherProfile.repeatCallEnabled
-                wallpaperId = createLauncherProfile.wallpaperId
-                uiMode = createLauncherProfile.uiMode
-                blueLightFilterEnabled = createLauncherProfile.blueLightFilterEnabled
-                soundSetting = createLauncherProfile.soundSetting
-                batterySaverEnabled = createLauncherProfile.batterySaverEnabled
-                reduceBrightnessEnabled = createLauncherProfile.reduceBrightnessEnabled
-                zenRuleId = createdZenRuleId
+            val createdZenRuleIdResult = zenNotificationManager.addAutomaticZenRule(launcherProfile)
+
+            if (createdZenRuleIdResult.isFailure) {
+                return  Result.failure(createdZenRuleIdResult.exceptionOrNull() ?: Exception("Failed to create zen rule"))
             }
 
-            launcherProfileRepository.createProfile(profile = launcherProfile)
+            val profileWithZenRule = launcherProfile.toBuilder()
+                .setZenRuleId(createdZenRuleIdResult.getOrThrow())
+                .build()
 
-            Result.success(launcherProfile)
+            launcherProfileRepository.createProfile(profile = profileWithZenRule)
+
+            Result.success(profileWithZenRule)
         } catch (e: IllegalStateException) {
             Result.failure(e)
         }
