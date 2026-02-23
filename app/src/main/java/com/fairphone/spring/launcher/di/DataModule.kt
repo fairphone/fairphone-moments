@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FairPhone B.V.
+ * Copyright (C) 2026 FairPhone B.V.
  *
  * SPDX-FileCopyrightText: 2025. FairPhone B.V.
  *
@@ -29,11 +29,14 @@ import com.fairphone.spring.launcher.data.repository.AppInfoRepositoryImpl
 import com.fairphone.spring.launcher.data.repository.LauncherProfileRepository
 import com.fairphone.spring.launcher.data.repository.LauncherProfileRepositoryImpl
 import com.fairphone.spring.launcher.data.serializer.LauncherProfilesSerializer
+import com.fairphone.spring.launcher.util.ZenNotificationManager
+import com.fairphone.spring.launcher.util.ZenNotificationManagerImpl
 import com.google.firebase.Firebase
 import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.analytics
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.bind
+import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
@@ -47,6 +50,7 @@ val dataModule = module {
         FirebaseApp.initializeApp(get())
         Firebase.analytics }
     singleOf(::FirebaseAnalyticsService) { bind<AnalyticsService>() }
+    factoryOf(::ZenNotificationManagerImpl) { bind<ZenNotificationManager>() }
 }
 
 /**
