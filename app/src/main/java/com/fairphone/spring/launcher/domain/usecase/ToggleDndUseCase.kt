@@ -23,15 +23,25 @@ class ToggleDndUseCase(
 
     override suspend fun execute(params: Boolean): Result<Unit> {
         return try {
-            if (params) {
+           if (params) {
                 val activeProfile = profileRepository.getActiveProfile().firstOrNull()
                     ?: return Result.failure(Exception("No active profile found"))
 
-                zenNotificationManager.enableDnd(activeProfile)
+                val result = zenNotificationManager.enableDnd(activeProfile)
+                if (result.isSuccess) {
+                    val zenRuleId = result.getOrThrow()
+                    if (zenRuleId != activeProfile.zenRuleId) {
+                        profileRepository.updateProfile(
+                            activeProfile.toBuilder().setZenRuleId(zenRuleId).build()
+                        )
+                    }
+                    return Result.success(Unit)
+                } else {
+                    return Result.failure(result.exceptionOrNull() ?: Exception("Unknown error"))
+                }
             } else {
-                zenNotificationManager.disableAllDnd()
+                return zenNotificationManager.disableAllDnd()
             }
-            Result.success(Unit)
         } catch (e: IllegalStateException) {
             Result.failure(e)
         }
