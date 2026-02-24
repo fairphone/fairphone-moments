@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FairPhone B.V.
+ * Copyright (C) 2026 FairPhone B.V.
  *
  * SPDX-FileCopyrightText: 2025. FairPhone B.V.
  *
@@ -43,14 +43,15 @@ import com.fairphone.spring.launcher.data.model.AppInfo
 import com.fairphone.spring.launcher.data.model.Mock_Profile
 import com.fairphone.spring.launcher.data.model.protos.LauncherProfile
 import com.fairphone.spring.launcher.data.model.toVO
-import com.fairphone.spring.launcher.ui.FP6Preview
-import com.fairphone.spring.launcher.ui.FP6PreviewDark
+import com.fairphone.spring.launcher.ui.PreviewDark
+import com.fairphone.spring.launcher.ui.PreviewDarkAugmentedFont
+import com.fairphone.spring.launcher.ui.PreviewLight
+import com.fairphone.spring.launcher.ui.PreviewLightAugmentedFont
 import com.fairphone.spring.launcher.ui.component.ConfirmDialog
 import com.fairphone.spring.launcher.ui.component.LauncherProfileSettingsTopBar
 import com.fairphone.spring.launcher.ui.component.ProfileNameEditorDialog
 import com.fairphone.spring.launcher.ui.component.SettingListItem
 import com.fairphone.spring.launcher.ui.screen.settings.contacts.allowedContactSubtitle
-import com.fairphone.spring.launcher.ui.screen.settings.sound.SoundVibrationSettingsViewModel
 import com.fairphone.spring.launcher.ui.theme.FairphoneTypography
 import com.fairphone.spring.launcher.ui.theme.SpringLauncherTheme
 import com.fairphone.spring.launcher.ui.theme.errorColor
@@ -304,6 +305,10 @@ fun DeleteModeButton(
 }
 
 @Composable
+@PreviewLight
+@PreviewDark
+@PreviewLightAugmentedFont
+@PreviewDarkAugmentedFont
 fun ProfileSettings_Preview() {
     SpringLauncherTheme {
         ProfileSettingsScreen(
@@ -324,16 +329,4 @@ fun ProfileSettings_Preview() {
             onModeDeletionClick = {}
         )
     }
-}
-
-@Composable
-@FP6Preview()
-fun ProfileSettings_Preview_Light() {
-    ProfileSettings_Preview()
-}
-
-@Composable
-@FP6PreviewDark()
-fun ProfileSettings_Preview_Dark() {
-    ProfileSettings_Preview()
 }

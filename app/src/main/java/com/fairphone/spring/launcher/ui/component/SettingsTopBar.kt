@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FairPhone B.V.
+ * Copyright (C) 2026 FairPhone B.V.
  *
  * SPDX-FileCopyrightText: 2025. FairPhone B.V.
  *
@@ -188,8 +188,6 @@ fun ActiveProfileLabel(modifier: Modifier = Modifier) {
                 color = MaterialTheme.colorScheme.outline,
                 shape = RoundedCornerShape(size = 100.dp)
             )
-            .width(74.dp)
-            .height(36.dp)
             .padding(start = 16.dp, top = 8.dp, end = 16.dp, bottom = 8.dp)
     ) {
 

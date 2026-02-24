@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 FairPhone B.V.
+ * Copyright (C) 2026 FairPhone B.V.
  *
  * SPDX-FileCopyrightText: 2025. FairPhone B.V.
  *
@@ -58,3 +58,26 @@ annotation class PreviewLight
     locale = "en",
 )
 annotation class PreviewDark
+
+@Preview(
+    name = "FP6",
+    apiLevel = 35,
+    showBackground = true,
+    backgroundColor = 0xFFCED3DC,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    locale = "en",
+    fontScale = 2f
+)
+annotation class PreviewLightAugmentedFont
+
+
+@Preview(
+    name = "FP6",
+    apiLevel = 35,
+    showBackground = true,
+    backgroundColor = 0xFF2C2927,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    locale = "en",
+    fontScale = 2f
+)
+annotation class PreviewDarkAugmentedFont
