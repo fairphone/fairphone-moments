@@ -45,6 +45,8 @@ class SwitchStateChangeActivity : ComponentActivity() {
 
     private val viewModel: SwitchStateChangeViewModel by inject()
 
+    private var switchState: SwitchState? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -60,6 +62,13 @@ class SwitchStateChangeActivity : ComponentActivity() {
         handleIntent(intent)
     }
 
+    override fun onStop() {
+        super.onStop()
+        if (switchState == SwitchState.DISABLED) {
+            SpringLauncherHomeActivity.stop()
+        }
+    }
+
     private fun handleIntent(intent: Intent) {
         if (!viewModel.isDndPermissionGranted(this)) {
             Log.d(Constants.LOG_TAG, "DND permission NOT granted")
@@ -70,17 +79,17 @@ class SwitchStateChangeActivity : ComponentActivity() {
             Log.d(Constants.LOG_TAG, "DND permission granted")
         }
 
-        val switchState = getSwitchState(intent) ?: run {
+        switchState = getSwitchState(intent) ?: run {
             Log.e(Constants.LOG_TAG, "Could not read switch state")
             finish()
             return
         }
 
         // handleDnd
-        handleDnd(switchState)
+        handleDnd(switchState!!)
 
         // Handle lockscreen wallpaper
-        handleLockscreenWallpaper(switchState)
+        handleLockscreenWallpaper(switchState!!)
 
         if (shouldShowOverlay(intent)) {
             setContent {
@@ -90,9 +99,9 @@ class SwitchStateChangeActivity : ComponentActivity() {
                     if (activeProfile != null) {
                         SwitchStateChangeScreen(
                             activeProfile = activeProfile!!,
-                            switchButtonSwitchState = switchState,
+                            switchButtonSwitchState = switchState!!,
                             onOverlayAnimationDone = {
-                                onAnimationDone(switchState)
+                                onAnimationDone()
                             }
                         )
                     }
@@ -107,8 +116,11 @@ class SwitchStateChangeActivity : ComponentActivity() {
                 SwitchState.DISABLED -> {
                     SpringLauncherHomeActivity.stop()
                 }
+                else -> {
+                    // Do nothing
+                }
             }
-            onAnimationDone(switchState)
+            onAnimationDone()
         }
     }
 
@@ -124,10 +136,7 @@ class SwitchStateChangeActivity : ComponentActivity() {
         viewModel.handleLockscreenWallpaper(this, switchState)
     }
 
-    private fun onAnimationDone(switchState: SwitchState) {
-        if (switchState == SwitchState.DISABLED) {
-            SpringLauncherHomeActivity.stop()
-        }
+    private fun onAnimationDone() {
         setResult(RESULT_OK)
         finish()
     }
@@ -201,7 +210,7 @@ class SwitchStateChangeActivity : ComponentActivity() {
 fun SwitchStateChangeScreen(
     activeProfile: LauncherProfile,
     switchButtonSwitchState: SwitchState,
-    onOverlayAnimationDone: (SwitchState) -> Unit
+    onOverlayAnimationDone: () -> Unit
 ) {
     BlurBehindActivity {
         Box(modifier = Modifier.fillMaxSize()) {}
@@ -210,7 +219,7 @@ fun SwitchStateChangeScreen(
     SwitchStateChangeOverlayScreen(
         profile = activeProfile,
         switchState = switchButtonSwitchState,
-        onAnimationDone = { onOverlayAnimationDone(switchButtonSwitchState) },
+        onAnimationDone = { onOverlayAnimationDone() },
         visibilityState = MutableTransitionState(SwitchAnimationState.NOT_STARTED)
     )
 }
