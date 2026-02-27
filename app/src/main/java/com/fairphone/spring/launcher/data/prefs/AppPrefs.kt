@@ -69,9 +69,11 @@ class AppPrefsImpl(private val dataStore: DataStore<Preferences>) : AppPrefs {
     override suspend fun usageMode(): UsageMode =
         dataStore.data
             .map { prefs ->
-                UsageMode.valueOf(
-                    prefs[ONBOARDING_COMPLETION] ?: UsageMode.ON_BOARDING.name
-                )
+                try {
+                    UsageMode.valueOf(prefs[ONBOARDING_COMPLETION] ?: UsageMode.ON_BOARDING.name)
+                } catch (e: IllegalArgumentException) {
+                    UsageMode.ON_BOARDING
+                }
             }
             .first()
 
