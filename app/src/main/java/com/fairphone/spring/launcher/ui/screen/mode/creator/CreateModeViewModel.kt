@@ -33,7 +33,6 @@ import com.fairphone.spring.launcher.domain.usecase.profile.SetEditedProfileUseC
 import com.fairphone.spring.launcher.ui.icons.mode.ModeIcon
 import com.fairphone.spring.launcher.ui.screen.settings.apps.selector.ScreenData
 import com.fairphone.spring.launcher.ui.screen.settings.apps.selector.VisibleAppSelectorScreenState
-import com.fairphone.spring.launcher.ui.screen.settings.apps.selector.updateAppSelectorState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -217,6 +216,16 @@ class CreateModeViewModel(
     private val _createModeState: MutableStateFlow<CreateModeState> =
         MutableStateFlow(CreateModeState.Loading)
     val createModeState = _createModeState.asStateFlow()
+}
+
+fun MutableStateFlow<VisibleAppSelectorScreenState>.updateAppSelectorState(
+    screenDataModifier: () -> ScreenData
+) {
+    update {
+        VisibleAppSelectorScreenState.Ready(
+            screenDataModifier.invoke()
+        )
+    }
 }
 
 sealed class CreateModeState {
