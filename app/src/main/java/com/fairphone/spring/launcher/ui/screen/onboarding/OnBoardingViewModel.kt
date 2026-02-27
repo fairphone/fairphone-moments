@@ -26,9 +26,9 @@ import com.fairphone.spring.launcher.data.repository.AppInfoRepository
 import com.fairphone.spring.launcher.domain.usecase.profile.GetActiveProfileUseCase
 import com.fairphone.spring.launcher.domain.usecase.profile.UpdateLauncherProfileUseCase
 import com.fairphone.spring.launcher.ui.icons.mode.ModeIcon
+import com.fairphone.spring.launcher.ui.screen.mode.creator.updateAppSelectorState
 import com.fairphone.spring.launcher.ui.screen.settings.apps.selector.ScreenData
 import com.fairphone.spring.launcher.ui.screen.settings.apps.selector.VisibleAppSelectorScreenState
-import com.fairphone.spring.launcher.ui.screen.settings.apps.selector.updateAppSelectorState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

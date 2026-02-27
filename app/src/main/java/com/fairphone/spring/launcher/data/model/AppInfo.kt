@@ -50,4 +50,7 @@ fun AppInfo.toLauncherProfileApp(): LauncherProfileApp {
     }
 }
 
+/**
+ * Maximum number of apps that can be visible in the launcher.
+ */
 const val LAUNCHER_MAX_APP_COUNT = 5
