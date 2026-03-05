@@ -12,7 +12,6 @@ import android.app.AutomaticZenRule
 import android.content.ComponentName
 import android.content.Context
 import android.net.Uri
-import android.provider.Settings
 import android.service.notification.Condition
 import android.service.notification.ZenDeviceEffects
 import android.service.notification.ZenPolicy
@@ -22,7 +21,6 @@ import com.fairphone.spring.launcher.activity.LauncherSettingsActivity
 import com.fairphone.spring.launcher.data.model.protos.ContactType
 import com.fairphone.spring.launcher.data.model.protos.LauncherProfile
 import com.fairphone.spring.launcher.data.model.protos.UiMode
-import com.fairphone.spring.launcher.data.prefs.AppPrefs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -42,16 +40,15 @@ interface ZenNotificationManager {
  *
  * @param context The application context.
  * @param deviceSoundManager The manager for the device sound settings.
- * @param appPrefs The application preferences.
+ * @param deviceAppearanceManager The manager for the device appearance settings.
  */
 class ZenNotificationManagerImpl(
     private val context: Context,
     private val deviceSoundManager: DeviceSoundManager,
-    private val appPrefs: AppPrefs,
+    private val deviceAppearanceManager: DeviceAppearanceManager,
 ) : ZenNotificationManager {
 
     companion object {
-        const val SETTING_BLUE_FILTER = "night_display_activated"
         const val LOG_TAG = "ZenNotificationManager"
     }
 
@@ -70,8 +67,7 @@ class ZenNotificationManagerImpl(
         }
 
         deviceSoundManager.enableDeviceSoundSetting(profile.soundSetting)
-        saveBlueLightFilterSettingState()
-        setBlueLightFilterEnabled(profile.blueLightFilterEnabled)
+        deviceAppearanceManager.enableBlueLightFilter(profile.blueLightFilterEnabled)
 
         val verifyZenRuleExistsResult = verifyZenRuleExists(profile)
         if (verifyZenRuleExistsResult.isFailure) {
@@ -97,7 +93,7 @@ class ZenNotificationManagerImpl(
             return Result.failure(IllegalStateException("Do Not Disturb access is not granted"))
         }
         deviceSoundManager.disableDeviceSoundSetting()
-        restoreBlueLightFilterSettingsState()
+        deviceAppearanceManager.disableBlueLightFilter()
 
         val verifyZenRuleExistsResult = verifyZenRuleExists(profile)
         if (verifyZenRuleExistsResult.isFailure) {
@@ -125,7 +121,7 @@ class ZenNotificationManagerImpl(
             return Result.failure(IllegalStateException("Do Not Disturb access is not granted"))
         }
         deviceSoundManager.disableDeviceSoundSetting()
-        restoreBlueLightFilterSettingsState()
+        deviceAppearanceManager.disableBlueLightFilter()
 
         val results = mutableListOf<Result<String>>()
         try {
@@ -422,52 +418,6 @@ class ZenNotificationManagerImpl(
             .setShouldUseNightMode(uiMode == UiMode.UI_MODE_DARK)
             .setShouldDisplayGrayscale(isGrayScaleEnabled)
             .build()
-    }
-
-    /**
-     * Enables or disables the blue light filter.
-     *
-     * @param enable True to enable, false to disable.
-     */
-    private fun setBlueLightFilterEnabled(enable: Boolean) {
-        try {
-            Settings.Secure.putInt(
-                context.contentResolver,
-                SETTING_BLUE_FILTER,
-                if (enable) 1 else 0
-            )
-        } catch (e: SecurityException) {
-            Log.e(
-                LOG_TAG,
-                "Failed to set blue light filter. App may need WRITE_SECURE_SETTINGS permission.",
-                e
-            )
-        } catch (e: Exception) {
-            Log.e(LOG_TAG, "Unexpected error setting blue light filter", e)
-        }
-    }
-
-    /**
-     * Saves the current blue light filter state to preferences.
-     */
-    private suspend fun saveBlueLightFilterSettingState() {
-        try {
-            val isEnabled = Settings.Secure.getInt(
-                context.contentResolver,
-                SETTING_BLUE_FILTER
-            ) == 1
-            appPrefs.setBlueLightFilter(isEnabled)
-        } catch (e: Exception) {
-            Log.e(LOG_TAG, "Failed to save blue light filter state", e)
-        }
-    }
-
-    /**
-     * Restores the blue light filter state from preferences.
-     */
-    private suspend fun restoreBlueLightFilterSettingsState() {
-        val originalState = appPrefs.isBlueLightFilterEnabled()
-        setBlueLightFilterEnabled(originalState)
     }
 
     /**
