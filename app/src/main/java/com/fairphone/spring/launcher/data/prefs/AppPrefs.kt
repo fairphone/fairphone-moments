@@ -48,6 +48,9 @@ interface AppPrefs {
 
     suspend fun getDeviceUiMode(): Int
     suspend fun setDeviceUiMode(mode: Int)
+
+    suspend fun isBlueLightFilterEnabled(): Boolean
+    suspend fun setBlueLightFilter(enabled: Boolean)
 }
 
 class AppPrefsImpl(private val dataStore: DataStore<Preferences>) : AppPrefs {
@@ -56,6 +59,7 @@ class AppPrefsImpl(private val dataStore: DataStore<Preferences>) : AppPrefs {
         val ONBOARDING_COMPLETION = stringPreferencesKey("onboarding_complete")
         val DEVICE_RINGER_MODE = intPreferencesKey("device_ringer_mode")
         val DEVICE_UI_MODE = intPreferencesKey("device_ui_mode")
+        val BLUE_LIGHT_FILTER = booleanPreferencesKey("blue_light_filter")
     }
 
     override suspend fun isFirstTimeUse(): Boolean {
@@ -108,6 +112,18 @@ class AppPrefsImpl(private val dataStore: DataStore<Preferences>) : AppPrefs {
     override suspend fun setDeviceUiMode(mode: Int) {
         dataStore.edit { prefs ->
             prefs[DEVICE_UI_MODE] = mode
+        }
+    }
+
+    override suspend fun isBlueLightFilterEnabled(): Boolean {
+        return dataStore.data.map { prefs ->
+            prefs[BLUE_LIGHT_FILTER] ?: false
+        }.first()
+    }
+
+    override suspend fun setBlueLightFilter(enabled: Boolean) {
+        dataStore.edit { prefs ->
+            prefs[BLUE_LIGHT_FILTER] = enabled
         }
     }
 }
