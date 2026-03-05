@@ -29,6 +29,8 @@ import com.fairphone.spring.launcher.data.repository.AppInfoRepositoryImpl
 import com.fairphone.spring.launcher.data.repository.LauncherProfileRepository
 import com.fairphone.spring.launcher.data.repository.LauncherProfileRepositoryImpl
 import com.fairphone.spring.launcher.data.serializer.LauncherProfilesSerializer
+import com.fairphone.spring.launcher.util.DeviceAppearanceManager
+import com.fairphone.spring.launcher.util.DeviceAppearanceManagerImpl
 import com.fairphone.spring.launcher.util.ZenNotificationManager
 import com.fairphone.spring.launcher.util.ZenNotificationManagerImpl
 import com.google.firebase.Firebase
@@ -51,6 +53,7 @@ val dataModule = module {
         Firebase.analytics }
     singleOf(::FirebaseAnalyticsService) { bind<AnalyticsService>() }
     factoryOf(::ZenNotificationManagerImpl) { bind<ZenNotificationManager>() }
+    factoryOf(::DeviceAppearanceManagerImpl) { bind<DeviceAppearanceManager>() }
 }
 
 /**
