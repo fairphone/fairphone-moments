@@ -28,7 +28,6 @@ sign:release:apk:
   before_script:
     - apt update && apt install --yes apksigner
     - apt update && apt install --yes zipalign
-    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
   script:
     - zipalign -p 4 $APK_BUILD_PATH/$UNSIGNED_APK_PATH $ZIPALIGNED_APK_PATH
     - apksigner sign
@@ -66,7 +65,6 @@ sign:release:bundle:
   before_script:
     - apt update && apt install --yes zip
     - apt update && apt install --yes zipalign
-    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
   script:
     - zipalign -p 4 $BUNDLE_BUILD_PATH/$UNSIGNED_BUNDLE_PATH $ZIPALIGNED_BUNDLE_PATH
     - zip -d $ZIPALIGNED_BUNDLE_PATH META-INF/\*
