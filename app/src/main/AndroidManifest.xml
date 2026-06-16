@@ -149,6 +149,18 @@
             android:theme="@style/Theme.ActivityTransparent"
             tools:ignore="DiscouragedApi,LockedOrientationActivity" />
 
+        <!-- No-op notification listener that unlocks reading active media sessions, so a
+             Moment can show media controls. Enabled by the user via "Notification access". -->
+        <service
+            android:name=".service.MediaListenerService"
+            android:label="@string/media_listener_label"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+
         <!-- TODO: Disabling these components for now until they are properly implemented -->
         <!--
         <service android:name=".service.NotificationInterceptorService"

@@ -21,8 +21,10 @@ import com.fairphone.spring.launcher.domain.usecase.profile.SetActiveProfileUseC
 import com.fairphone.spring.launcher.domain.usecase.profile.SetApplicationUsageModeUseCase
 import com.fairphone.spring.launcher.domain.usecase.profile.SetEditedProfileUseCase
 import com.fairphone.spring.launcher.domain.usecase.profile.UpdateLauncherProfileUseCase
+import com.fairphone.spring.launcher.util.MediaControlManager
 import com.fairphone.spring.launcher.util.ZenNotificationManager
 import org.koin.core.module.dsl.factoryOf
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 val domainModule = module {
@@ -41,4 +43,5 @@ val domainModule = module {
     factoryOf(::SetApplicationUsageModeUseCase)
 
     factoryOf(::ZenNotificationManager)
+    singleOf(::MediaControlManager)
 }

@@ -32,10 +32,16 @@ object AppearanceSettings
 fun NavGraphBuilder.appearenceSettingsNavGraph(navController: NavHostController) {
 
     composable<AppearanceSettings> {
+        val viewModel: WallpaperSettingsViewModel = koinViewModel()
+        val activeProfile by viewModel.editedProfile.collectAsStateWithLifecycle()
+
         AppearanceSettingsScreen(
             onCustomizeWallpaperClick = {
                 navController.navigate(WallpaperSettings)
-            }
+            },
+            mediaControlsEnabled = activeProfile?.mediaControlsDisabled != true,
+            onMediaControlsToggle = viewModel::setMediaControlsEnabled,
+            onApplyMediaControlsToAll = viewModel::applyMediaControlsToAll,
         )
     }
 

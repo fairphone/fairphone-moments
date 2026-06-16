@@ -115,4 +115,14 @@
     <string name="update_wallpaper">Update wallpaper</string>
     <string name="maximum_moments_reached_label">You have reached the maximum amount of moments</string>
 
+    <!-- Media controls -->
+    <string name="media_listener_label">Media controls</string>
+    <string name="media_play">Play</string>
+    <string name="media_pause">Pause</string>
+    <string name="media_next">Next track</string>
+    <string name="media_previous">Previous track</string>
+    <string name="media_controls_setting_title">Show media controls</string>
+    <string name="media_controls_setting_subtitle">Show what\'s playing on this Moment\'s home screen</string>
+    <string name="media_controls_apply_all">Apply media controls to all Moments</string>
+
 </resources>

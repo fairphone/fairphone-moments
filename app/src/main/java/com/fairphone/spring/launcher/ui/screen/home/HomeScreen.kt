@@ -46,6 +46,8 @@ import com.fairphone.spring.launcher.ui.FP6PreviewDark
 import com.fairphone.spring.launcher.ui.component.FairphoneMomentsDemoCard
 import com.fairphone.spring.launcher.ui.component.WorkAppBadge
 import com.fairphone.spring.launcher.ui.screen.home.component.CurrentModeButton
+import com.fairphone.spring.launcher.ui.screen.home.component.MediaControlCard
+import com.fairphone.spring.launcher.util.MediaState
 import com.fairphone.spring.launcher.ui.theme.FairphoneTypography
 import com.fairphone.spring.launcher.ui.theme.SpringLauncherTheme
 import org.koin.androidx.compose.koinViewModel
@@ -62,11 +64,13 @@ fun HomeScreen(
     onModeSwitcherButtonClick: () -> Unit,
     onDemoCardClick: () -> Unit,
     onTimeClick: () -> Unit,
-    viewModel: HomeScreenViewModel = koinViewModel()
+    viewModel: HomeScreenViewModel = koinViewModel(),
+    mediaViewModel: MediaControlViewModel = koinViewModel(),
 ) {
     val context = LocalContext.current
     val dateTime by viewModel.dateTime.collectAsStateWithLifecycle()
     val screenState by viewModel.screenState.collectAsStateWithLifecycle()
+    val mediaState by mediaViewModel.mediaState.collectAsStateWithLifecycle()
 
     val (date, time) = remember(dateTime) {
         dateTime.format(DateTimeFormatter.ofPattern(CLOCK_DATE_FORMAT)) to
@@ -96,6 +100,10 @@ fun HomeScreen(
             viewModel.finishOnBoarding()
         },
         onTimeClick = onTimeClick,
+        mediaState = mediaState,
+        onMediaPlayPause = mediaViewModel::playPause,
+        onMediaNext = mediaViewModel::next,
+        onMediaPrevious = mediaViewModel::previous,
     )
 }
 
@@ -114,6 +122,10 @@ fun HomeScreen(
     onDemoCardClick: () -> Unit,
     onTooltipClick: () -> Unit,
     onTimeClick: () -> Unit,
+    mediaState: MediaState? = null,
+    onMediaPlayPause: () -> Unit = {},
+    onMediaNext: () -> Unit = {},
+    onMediaPrevious: () -> Unit = {},
 ) {
 
     val fadeInAnimation = remember {
@@ -163,6 +175,16 @@ fun HomeScreen(
                     onModeSwitcherButtonClick = onModeSwitcherButtonClick,
                     onTooltipClick = onTooltipClick
                 )
+
+                mediaState?.takeIf { !activeProfile.mediaControlsDisabled }?.let { media ->
+                    MediaControlCard(
+                        state = media,
+                        onPlayPause = onMediaPlayPause,
+                        onNext = onMediaNext,
+                        onPrevious = onMediaPrevious,
+                        modifier = Modifier.padding(top = 12.dp, start = 24.dp, end = 24.dp),
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.weight(1f))

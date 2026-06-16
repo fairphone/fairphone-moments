@@ -13,18 +13,21 @@ import androidx.lifecycle.viewModelScope
 import com.fairphone.spring.launcher.data.model.LauncherColors
 import com.fairphone.spring.launcher.data.model.protos.LauncherProfile
 import com.fairphone.spring.launcher.domain.usecase.profile.GetActiveProfileUseCase
+import com.fairphone.spring.launcher.domain.usecase.profile.GetAllProfilesUseCase
 import com.fairphone.spring.launcher.domain.usecase.profile.UpdateLauncherProfileUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class WallpaperSettingsViewModel(
     private val getActiveProfileUseCase: GetActiveProfileUseCase,
-    private val updateLauncherProfileUseCase: UpdateLauncherProfileUseCase
+    private val getAllProfilesUseCase: GetAllProfilesUseCase,
+    private val updateLauncherProfileUseCase: UpdateLauncherProfileUseCase,
 ) : ViewModel() {
 
     val editedProfile: StateFlow<LauncherProfile?> =
@@ -60,6 +63,25 @@ class WallpaperSettingsViewModel(
         }
     }
 
+    /** Shows or hides the media-controls card for this Moment. */
+    fun setMediaControlsEnabled(enabled: Boolean) = viewModelScope.launch {
+        val profile = editedProfile.value ?: return@launch
+        updateLauncherProfileUseCase.execute(
+            profile.toBuilder().setMediaControlsDisabled(!enabled).build()
+        )
+    }
+
+    /** Applies this Moment's media-controls choice to every Moment. */
+    fun applyMediaControlsToAll() = viewModelScope.launch {
+        val disabled = editedProfile.value?.mediaControlsDisabled ?: return@launch
+        getAllProfilesUseCase.execute(Unit).first().forEach { profile ->
+            if (profile.mediaControlsDisabled != disabled) {
+                updateLauncherProfileUseCase.execute(
+                    profile.toBuilder().setMediaControlsDisabled(disabled).build()
+                )
+            }
+        }
+    }
 }
 
 sealed class WallpaperSettingScreenState {
@@ -67,4 +89,3 @@ sealed class WallpaperSettingScreenState {
     data object Success : WallpaperSettingScreenState()
     data class Error(val exception: Throwable?) : WallpaperSettingScreenState()
 }
-

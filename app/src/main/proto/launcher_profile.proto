@@ -36,6 +36,9 @@ message LauncherProfile {
     bool airplaneModeEnabled = 19;
     string zenRuleId = 20;
     repeated LauncherProfileApp launcher_profile_apps = 21;
+    // Hides the media-controls card for this Moment. Stored inverted so the default
+    // (field absent = false) keeps the card shown.
+    bool mediaControlsDisabled = 27;
 }
 
 message LauncherProfileApp {
