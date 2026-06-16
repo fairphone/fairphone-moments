@@ -36,6 +36,58 @@ message LauncherProfile {
     bool airplaneModeEnabled = 19;
     string zenRuleId = 20;
     repeated LauncherProfileApp launcher_profile_apps = 21;
+    LocationTrigger locationTrigger = 22;
+    TimeTrigger timeTrigger = 23;
+    DayTrigger dayTrigger = 24;
+    MotionTrigger motionTrigger = 25;
+}
+
+message LocationTrigger {
+    bool enabled = 1;
+    // Legacy single location (fields 2-4), migrated into `locations`. Kept only so old
+    // profiles still read; new code writes `locations`.
+    double latitude = 2;
+    double longitude = 3;
+    float radiusMeters = 4;
+    // One or more places; the trigger matches when you are within any of them.
+    repeated LocationPoint locations = 5;
+}
+
+message LocationPoint {
+    double latitude = 1;
+    double longitude = 2;
+    float radiusMeters = 3;
+}
+
+message TimeTrigger {
+    bool enabled = 1;
+    reserved 2; // was daysOfWeek, now its own DayTrigger axis
+    // Minutes since midnight, 0..1439. If start > end the range wraps past midnight.
+    int32 startMinuteOfDay = 3;
+    int32 endMinuteOfDay = 4;
+}
+
+message DayTrigger {
+    bool enabled = 1;
+    // ISO-8601 day numbers (1 = Monday … 7 = Sunday). Empty = every day.
+    repeated int32 daysOfWeek = 2;
+}
+
+// How the user is moving when the switch is flipped, classified on-device from the
+// accelerometer alone — no GPS, no Google Play Services. Biking and driving are not told
+// apart (that needs GPS); both fall under TRANSPORT.
+enum MotionMode {
+    MOTION_MODE_UNSPECIFIED = 0; // could not be determined
+    MOTION_MODE_STILL = 1;
+    MOTION_MODE_WALKING = 2;
+    MOTION_MODE_TRANSPORT = 3; // moving but not walking (bike, car, bus, train…)
+    reserved 4; // was MOTION_MODE_DRIVING, now folded into TRANSPORT
+}
+
+message MotionTrigger {
+    bool enabled = 1;
+    // Modes that activate this Moment. Empty = any movement (walking, biking or driving).
+    repeated MotionMode modes = 2;
 }
 
 message LauncherProfileApp {

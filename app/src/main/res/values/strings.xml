@@ -72,6 +72,47 @@
     <string name="setting_notifications_allow_repeat_caller">Allow repeat callers</string>
     <string name="setting_notifications_allow_repeat_caller_desc">Someone who calls multiple times within a 15-minute period</string>
 
+    <!-- Location trigger settings -->
+    <string name="setting_title_location_trigger">Location trigger</string>
+    <string name="location_trigger_status_on">On</string>
+    <string name="location_trigger_status_off">Off</string>
+    <string name="location_trigger_description">Bind this Moment to one or more places. When you flip the switch while you\'re at any of them, this Moment turns on.</string>
+    <string name="location_trigger_enable_title">Trigger by location</string>
+    <string name="location_trigger_enable_subtitle">Turn on this Moment when you flip the switch here</string>
+    <string name="location_trigger_current_location">Set to current location</string>
+    <string name="location_trigger_add">Add a location</string>
+    <string name="location_trigger_location_label">Location %1$d</string>
+    <string name="location_trigger_remove">Remove location</string>
+    <string name="location_trigger_no_location">No location saved yet</string>
+    <string name="location_trigger_fetching">Getting current location…</string>
+    <string name="location_trigger_fetch_failed">Couldn\'t get your current location. Make sure location is turned on and try again.</string>
+    <string name="location_trigger_radius_header">Trigger when closer than</string>
+    <string name="location_trigger_radius_option">Within %1$s</string>
+    <string name="location_trigger_permission_header">Permissions needed</string>
+    <string name="location_trigger_permission_text">To pick the right Moment for where you are, Fairphone Moments reads your location when you flip the switch. It is only checked then, never in the background.</string>
+    <string name="permission_toggle_title_location">Allow location access</string>
+    <string name="permission_toggle_subtitle_location">Needed to detect where you are</string>
+
+    <!-- Time &amp; day trigger settings -->
+    <string name="setting_title_time_trigger">Time &amp; day trigger</string>
+    <string name="time_trigger_description">Bind this Moment to days and/or a time window. Day and time are independent: turn on either, or both. When you flip the switch and the conditions match, this Moment turns on.</string>
+    <string name="day_trigger_enable_title">Trigger by day</string>
+    <string name="day_trigger_enable_subtitle">Turn on this Moment on chosen days</string>
+    <string name="time_trigger_enable_title">Trigger by time</string>
+    <string name="time_trigger_enable_subtitle">Turn on this Moment within a time window</string>
+    <string name="time_trigger_days_hint">Leave all off to apply every day.</string>
+    <string name="time_trigger_from">From</string>
+    <string name="time_trigger_to">To</string>
+
+    <!-- Motion (transport-mode) trigger settings -->
+    <string name="setting_title_motion_trigger">Motion trigger</string>
+    <string name="motion_trigger_description">Bind this Moment to how you\'re moving. When you flip the switch, your phone detects whether you\'re walking or in transport (bike, car, bus, train) and turns on this Moment if it matches. Detection is on-device from motion alone, no GPS.</string>
+    <string name="motion_trigger_enable_title">Trigger by motion</string>
+    <string name="motion_trigger_enable_subtitle">Turn on this Moment for the chosen ways of moving</string>
+    <string name="motion_trigger_modes_hint">Leave all off to match any movement. You need to already be moving when you flip the switch.</string>
+    <string name="motion_mode_walking">Walking</string>
+    <string name="motion_mode_transport">Transport</string>
+
     <!-- Switch state change overlay -->
     <string name="profile_switch_state_enabled">%1$s\nenabled</string>
     <string name="profile_switch_state_disabled">%1$s\ndisabled</string>

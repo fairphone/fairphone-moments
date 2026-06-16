@@ -62,6 +62,9 @@ fun ProfileSettingsScreen(
     onNavigateToAllowedAppSettings: () -> Unit,
     onNavigateToNotificationSettings: () -> Unit,
     onNavigateToAppearanceSettings: () -> Unit,
+    onNavigateToLocationTriggerSettings: () -> Unit,
+    onNavigateToTimeTriggerSettings: () -> Unit,
+    onNavigateToMotionTriggerSettings: () -> Unit,
     onNavigateToSoundAndVibrationSettings: () -> Unit,
     onNavigateToPowerSavingSettings: () -> Unit,
     onModeDeletionClick: () -> Unit
@@ -87,6 +90,9 @@ fun ProfileSettingsScreen(
                 onNavigateToAllowedAppSettings = onNavigateToAllowedAppSettings,
                 onNavigateToNotificationSettings = onNavigateToNotificationSettings,
                 onNavigateToAppearanceSettings = onNavigateToAppearanceSettings,
+                onNavigateToLocationTriggerSettings = onNavigateToLocationTriggerSettings,
+                onNavigateToTimeTriggerSettings = onNavigateToTimeTriggerSettings,
+                onNavigateToMotionTriggerSettings = onNavigateToMotionTriggerSettings,
                 onNavigateToSoundAndVibrationSettings = onNavigateToSoundAndVibrationSettings,
                 onNavigateToPowerSavingSettings = onNavigateToPowerSavingSettings,
                 onModeDeletionClick = onModeDeletionClick
@@ -110,6 +116,9 @@ fun ProfileSettingsScreen(
     onNavigateToAllowedAppSettings: () -> Unit,
     onNavigateToNotificationSettings: () -> Unit,
     onNavigateToAppearanceSettings: () -> Unit,
+    onNavigateToLocationTriggerSettings: () -> Unit,
+    onNavigateToTimeTriggerSettings: () -> Unit,
+    onNavigateToMotionTriggerSettings: () -> Unit,
     onNavigateToSoundAndVibrationSettings: () -> Unit,
     onNavigateToPowerSavingSettings: () -> Unit,
     onModeDeletionClick: () -> Unit
@@ -191,6 +200,33 @@ fun ProfileSettingsScreen(
                     title = stringResource(R.string.setting_title_appearance),
                     subtitle = stringResource(R.string.setting_subtitle_appearance),
                     onClick = onNavigateToAppearanceSettings
+                )
+                SettingListItem(
+                    title = stringResource(R.string.setting_title_location_trigger),
+                    subtitle = if (profile.locationTrigger.enabled) {
+                        stringResource(R.string.location_trigger_status_on)
+                    } else {
+                        stringResource(R.string.location_trigger_status_off)
+                    },
+                    onClick = onNavigateToLocationTriggerSettings
+                )
+                SettingListItem(
+                    title = stringResource(R.string.setting_title_time_trigger),
+                    subtitle = if (profile.dayTrigger.enabled || profile.timeTrigger.enabled) {
+                        stringResource(R.string.location_trigger_status_on)
+                    } else {
+                        stringResource(R.string.location_trigger_status_off)
+                    },
+                    onClick = onNavigateToTimeTriggerSettings
+                )
+                SettingListItem(
+                    title = stringResource(R.string.setting_title_motion_trigger),
+                    subtitle = if (profile.motionTrigger.enabled) {
+                        stringResource(R.string.location_trigger_status_on)
+                    } else {
+                        stringResource(R.string.location_trigger_status_off)
+                    },
+                    onClick = onNavigateToMotionTriggerSettings
                 )
 //                SettingListItem(
 //                    enabled = false,
@@ -314,6 +350,9 @@ fun ProfileSettings_Preview() {
             onNavigateToAllowedContactSettings = {},
             onNavigateToNotificationSettings = {},
             onNavigateToAppearanceSettings = {},
+            onNavigateToLocationTriggerSettings = {},
+            onNavigateToTimeTriggerSettings = {},
+            onNavigateToMotionTriggerSettings = {},
             onNavigateToSoundAndVibrationSettings = {},
             onNavigateToPowerSavingSettings = {},
             onModeDeletionClick = {}

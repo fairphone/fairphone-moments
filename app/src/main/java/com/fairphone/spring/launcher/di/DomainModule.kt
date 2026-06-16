@@ -19,10 +19,18 @@ import com.fairphone.spring.launcher.domain.usecase.profile.GetEditedProfileUseC
 import com.fairphone.spring.launcher.domain.usecase.profile.InitializeSpringLauncherUseCase
 import com.fairphone.spring.launcher.domain.usecase.profile.SetActiveProfileUseCase
 import com.fairphone.spring.launcher.domain.usecase.profile.SetApplicationUsageModeUseCase
+import com.fairphone.spring.launcher.domain.usecase.profile.SetDayTriggerUseCase
 import com.fairphone.spring.launcher.domain.usecase.profile.SetEditedProfileUseCase
+import com.fairphone.spring.launcher.domain.usecase.profile.SetLocationTriggerUseCase
+import com.fairphone.spring.launcher.domain.usecase.profile.SetMotionTriggerUseCase
+import com.fairphone.spring.launcher.domain.usecase.profile.SetTimeTriggerUseCase
+import com.fairphone.spring.launcher.domain.usecase.profile.SwitchToTriggeredProfileUseCase
 import com.fairphone.spring.launcher.domain.usecase.profile.UpdateLauncherProfileUseCase
+import com.fairphone.spring.launcher.util.LocationTriggerManager
+import com.fairphone.spring.launcher.util.MotionClassifier
 import com.fairphone.spring.launcher.util.ZenNotificationManager
 import org.koin.core.module.dsl.factoryOf
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 val domainModule = module {
@@ -39,6 +47,13 @@ val domainModule = module {
     factoryOf(::DeleteLauncherProfileUseCase)
     factoryOf(::GetApplicationUsageModeUseCase)
     factoryOf(::SetApplicationUsageModeUseCase)
+    factoryOf(::SetLocationTriggerUseCase)
+    factoryOf(::SetTimeTriggerUseCase)
+    factoryOf(::SetDayTriggerUseCase)
+    factoryOf(::SetMotionTriggerUseCase)
+    factoryOf(::SwitchToTriggeredProfileUseCase)
 
     factoryOf(::ZenNotificationManager)
+    singleOf(::LocationTriggerManager)
+    singleOf(::MotionClassifier)
 }

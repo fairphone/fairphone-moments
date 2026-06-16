@@ -19,9 +19,12 @@ import com.fairphone.spring.launcher.ui.screen.settings.apps.VisibleAppSettingsV
 import com.fairphone.spring.launcher.ui.screen.settings.apps.selector.VisibleAppSelectorViewModel
 import com.fairphone.spring.launcher.ui.screen.settings.contacts.AllowedContactSelectorViewModel
 import com.fairphone.spring.launcher.ui.screen.settings.contacts.AllowedContactSettingsViewModel
+import com.fairphone.spring.launcher.ui.screen.settings.location.LocationTriggerSettingsViewModel
 import com.fairphone.spring.launcher.ui.screen.settings.main.ProfileSettingsViewModel
+import com.fairphone.spring.launcher.ui.screen.settings.motion.MotionTriggerSettingsViewModel
 import com.fairphone.spring.launcher.ui.screen.settings.notifications.AllowedNotificationsAppsViewModel
 import com.fairphone.spring.launcher.ui.screen.settings.notifications.NotificationsSettingsViewModel
+import com.fairphone.spring.launcher.ui.screen.settings.time.TimeTriggerSettingsViewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
@@ -40,4 +43,7 @@ val uiModule = module {
     viewModelOf(::OnBoardingViewModel)
     viewModelOf(::OnBoardingStatusViewModel)
     viewModelOf(::WallpaperSettingsViewModel)
+    viewModelOf(::LocationTriggerSettingsViewModel)
+    viewModelOf(::TimeTriggerSettingsViewModel)
+    viewModelOf(::MotionTriggerSettingsViewModel)
 }

@@ -20,6 +20,7 @@ import com.fairphone.spring.launcher.data.model.protos.LauncherProfile
 import com.fairphone.spring.launcher.domain.usecase.EnableDndUseCase
 import com.fairphone.spring.launcher.domain.usecase.profile.GetActiveProfileUseCase
 import com.fairphone.spring.launcher.domain.usecase.profile.InitializeSpringLauncherUseCase
+import com.fairphone.spring.launcher.domain.usecase.profile.SwitchToTriggeredProfileUseCase
 import com.fairphone.spring.launcher.receiver.CallInterceptorReceiver
 import com.fairphone.spring.launcher.service.NotificationInterceptorService
 import com.fairphone.spring.launcher.util.isDoNotDisturbAccessGranted
@@ -35,6 +36,7 @@ class SwitchStateChangeViewModel(
     private val getActiveProfileUseCase: GetActiveProfileUseCase,
     private val enableDndUseCase: EnableDndUseCase,
     private val initializeSpringLauncherUseCase: InitializeSpringLauncherUseCase,
+    private val switchToTriggeredProfileUseCase: SwitchToTriggeredProfileUseCase,
     private val analyticsService: AnalyticsService,
 ) : ViewModel() {
 
@@ -54,6 +56,13 @@ class SwitchStateChangeViewModel(
 
     fun handleDnd(context: Context, switchState: SwitchState) = viewModelScope.launch {
         trackSwitchStateChangedEvent(switchState)
+
+        // When entering Moments, pick the Moment whose location/day/time triggers match the
+        // current context before applying its Do Not Disturb settings. No-op when no Moment
+        // has triggers configured, so behaviour is unchanged for users who don't use them.
+        if (switchState == SwitchState.ENABLED) {
+            switchToTriggeredProfileUseCase.execute()
+        }
 
         val enableDnd = when (switchState) {
             SwitchState.ENABLED -> true

@@ -88,6 +88,15 @@ fun SettingsNavigation(
                 onNavigateToAppearanceSettings = {
                     navController.navigate(AppearanceSettings)
                 },
+                onNavigateToLocationTriggerSettings = {
+                    navController.navigate(LocationTriggerSettings)
+                },
+                onNavigateToTimeTriggerSettings = {
+                    navController.navigate(TimeTriggerSettings)
+                },
+                onNavigateToMotionTriggerSettings = {
+                    navController.navigate(MotionTriggerSettings)
+                },
                 onNavigateToSoundAndVibrationSettings = {},
                 onNavigateToPowerSavingSettings = {},
                 onModeDeletionClick = {
@@ -111,5 +120,14 @@ fun SettingsNavigation(
 
         // Appearance Settings
         appearenceSettingsNavGraph(navController)
+
+        // Location Trigger Settings
+        locationTriggerSettingsNavGraph(navController)
+
+        // Time & Day Trigger Settings
+        timeTriggerSettingsNavGraph(navController)
+
+        // Motion (transport-mode) Trigger Settings
+        motionTriggerSettingsNavGraph(navController)
     }
 }
