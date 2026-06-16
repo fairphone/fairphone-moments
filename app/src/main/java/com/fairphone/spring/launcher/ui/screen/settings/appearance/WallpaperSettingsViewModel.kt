@@ -8,12 +8,14 @@
 
 package com.fairphone.spring.launcher.ui.screen.settings.appearance
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fairphone.spring.launcher.data.model.LauncherColors
 import com.fairphone.spring.launcher.data.model.protos.LauncherProfile
 import com.fairphone.spring.launcher.domain.usecase.profile.GetActiveProfileUseCase
 import com.fairphone.spring.launcher.domain.usecase.profile.UpdateLauncherProfileUseCase
+import com.fairphone.spring.launcher.util.BackgroundImageStore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -24,7 +26,8 @@ import kotlinx.coroutines.launch
 
 class WallpaperSettingsViewModel(
     private val getActiveProfileUseCase: GetActiveProfileUseCase,
-    private val updateLauncherProfileUseCase: UpdateLauncherProfileUseCase
+    private val updateLauncherProfileUseCase: UpdateLauncherProfileUseCase,
+    private val backgroundImageStore: BackgroundImageStore,
 ) : ViewModel() {
 
     val editedProfile: StateFlow<LauncherProfile?> =
@@ -60,6 +63,23 @@ class WallpaperSettingsViewModel(
         }
     }
 
+    /** Saves a picked photo as this Moment's background. */
+    fun setBackgroundImage(uri: Uri) = viewModelScope.launch {
+        val profile = editedProfile.value ?: return@launch
+        val path = backgroundImageStore.save(profile.id, uri) ?: return@launch
+        updateLauncherProfileUseCase.execute(
+            profile.toBuilder().setBackgroundImagePath(path).build()
+        )
+    }
+
+    /** Removes this Moment's background photo, falling back to the gradient. */
+    fun clearBackgroundImage() = viewModelScope.launch {
+        val profile = editedProfile.value ?: return@launch
+        backgroundImageStore.delete(profile.id)
+        updateLauncherProfileUseCase.execute(
+            profile.toBuilder().clearBackgroundImagePath().build()
+        )
+    }
 }
 
 sealed class WallpaperSettingScreenState {
@@ -67,4 +87,3 @@ sealed class WallpaperSettingScreenState {
     data object Success : WallpaperSettingScreenState()
     data class Error(val exception: Throwable?) : WallpaperSettingScreenState()
 }
-

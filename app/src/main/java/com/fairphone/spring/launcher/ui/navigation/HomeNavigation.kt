@@ -22,7 +22,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import coil3.compose.AsyncImage
+import java.io.File
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -112,6 +116,22 @@ fun HomeNavigation(
                             modifier = Modifier
                                 .fillMaxSize()
                         ) {
+                            // A user-picked background photo for this Moment, if set, sits
+                            // behind the content with a subtle scrim so text stays legible.
+                            val backgroundPath = screenState!!.activeProfile.backgroundImagePath
+                            if (backgroundPath.isNotEmpty()) {
+                                AsyncImage(
+                                    model = File(backgroundPath),
+                                    contentDescription = null,
+                                    contentScale = ContentScale.Crop,
+                                    modifier = Modifier.fillMaxSize(),
+                                )
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .background(Color.Black.copy(alpha = 0.3f))
+                                )
+                            }
                             HomeScreen(
                                 isContentVisible = isContentVisible,
                                 onModeSwitcherButtonClick = {

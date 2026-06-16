@@ -8,6 +8,9 @@
 
 package com.fairphone.spring.launcher.ui.navigation
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
@@ -32,10 +35,24 @@ object AppearanceSettings
 fun NavGraphBuilder.appearenceSettingsNavGraph(navController: NavHostController) {
 
     composable<AppearanceSettings> {
+        val viewModel: WallpaperSettingsViewModel = koinViewModel()
+        val activeProfile by viewModel.editedProfile.collectAsStateWithLifecycle()
+
+        val photoPicker = rememberLauncherForActivityResult(
+            ActivityResultContracts.PickVisualMedia()
+        ) { uri -> uri?.let(viewModel::setBackgroundImage) }
+
         AppearanceSettingsScreen(
             onCustomizeWallpaperClick = {
                 navController.navigate(WallpaperSettings)
-            }
+            },
+            hasBackgroundPhoto = activeProfile?.backgroundImagePath?.isNotEmpty() == true,
+            onChooseBackgroundPhoto = {
+                photoPicker.launch(
+                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                )
+            },
+            onRemoveBackgroundPhoto = viewModel::clearBackgroundImage,
         )
     }
 

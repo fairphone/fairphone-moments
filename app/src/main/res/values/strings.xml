@@ -113,6 +113,11 @@
     <string name="permission_toggle_subtitle_post_notification">Permission to repost the filtered notifications</string>
     <string name="wallpaper">Wallpaper</string>
     <string name="update_wallpaper">Update wallpaper</string>
+    <string name="wallpaper_gradient_subtitle">Pick a colour gradient</string>
+    <string name="background_photo">Background photo</string>
+    <string name="background_photo_pick">Use your own picture for this Moment</string>
+    <string name="background_photo_set">Custom photo set</string>
+    <string name="background_photo_remove">Remove background photo</string>
     <string name="maximum_moments_reached_label">You have reached the maximum amount of moments</string>
 
 </resources>

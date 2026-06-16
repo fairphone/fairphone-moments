@@ -36,6 +36,9 @@ message LauncherProfile {
     bool airplaneModeEnabled = 19;
     string zenRuleId = 20;
     repeated LauncherProfileApp launcher_profile_apps = 21;
+    // Absolute path to a user-picked background image copied into app storage.
+    // Empty = use the bgColor1/bgColor2 gradient.
+    string backgroundImagePath = 26;
 }
 
 message LauncherProfileApp {
