@@ -6,12 +6,10 @@
  * SPDX-License-Identifier: EUPL-1.2
  */
 
-import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.firebase.crashlytics)
@@ -21,9 +19,9 @@ plugins {
     alias(libs.plugins.owasp.dependencycheck)
 }
 
-val versionMajor: String by project
-val versionMinor: String by project
-val versionPatch: String by project
+val versionMajor = project.property("versionMajor") as String
+val versionMinor = project.property("versionMinor") as String
+val versionPatch = project.property("versionPatch") as String
 
 val appVersionCode = versionMajor.toInt() * 10000 + versionMinor.toInt() * 100 + versionPatch.toInt()
 val appVersionName = "$versionMajor.$versionMinor.$versionPatch"
@@ -49,9 +47,9 @@ android {
 
     sourceSets {
         getByName("main") {
-            java.srcDirs("src/main/java")
-            kotlin.srcDirs("src/main/kotlin")
-            res.srcDirs("src/main/res")
+            java.directories.add("src/main/java")
+            kotlin.directories.add("src/main/kotlin")
+            res.directories.add("src/main/res")
         }
     }
 
@@ -78,7 +76,7 @@ android {
 
             signingConfig = signingConfigs.getByName("release")
             proguardFiles(
-                getDefaultProguardFile("proguard-android.txt"),
+                getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
@@ -100,27 +98,21 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlin {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_17)
-            freeCompilerArgs.addAll(
-                "-Xstring-concat=inline",
-                "-Xwhen-guards",
-                "-opt-in=kotlin.time.ExperimentalTime",
-            )
-        }
-    }
+
     buildFeatures {
         compose = true
         buildConfig = true
     }
-    applicationVariants.all { variant ->
-        variant.outputs.all { output ->
-            (output as? BaseVariantOutputImpl)?.apply {
-                outputFileName = "SpringLauncher_${variant.buildType.name}.apk"
-            }
-            true
-        }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+        freeCompilerArgs.addAll(
+            "-Xstring-concat=inline",
+            "-Xwhen-guards",
+            "-opt-in=kotlin.time.ExperimentalTime",
+        )
     }
 }
 
@@ -198,3 +190,4 @@ dependencyCheck {
 licenseReport {
     allowedLicensesFile = file("$rootDir/config/licenses/allowed-licenses.json")
 }
+
