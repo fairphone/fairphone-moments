@@ -93,8 +93,8 @@
     <string name="permission_toggle_subtitle_notification_access">Permissão para ler a origem de suas notificações</string>
     <string name="permission_toggle_title_post_notification">Publicar notificações</string>
     <string name="permission_toggle_subtitle_post_notification">Permissão para republicar as notificações filtradas</string>
-    <string name="wallpaper">Papel de parede</string>
-    <string name="update_wallpaper">Atualizar Papel de Parede</string>
+    <string name="wallpaper">Imagem de Fundo</string>
+    <string name="update_wallpaper">Atualizar Imagen de Fundo</string>
     <string name="maximum_moments_reached_label">Você atingiu o número máximo de momentos</string>
 
     <string name="sound_and_vibration_title">Som e vibração</string>
