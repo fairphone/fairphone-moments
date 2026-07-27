@@ -63,14 +63,6 @@
     <!-- Permission needed to read contacts from device -->
     <!--<uses-permission android:name="android.permission.READ_CONTACTS" />-->
 
-    <!-- Permission needed to post intercepted notifications -->
-    <!--<uses-permission android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" tools:ignore="ProtectedPermissions" />-->
-    <!--<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />-->
-
-    <!-- Permissions for Call Interception -->
-    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
-    <!--<uses-permission android:name="android.permission.READ_CALL_LOG" />-->
-
     <application
         android:name=".App"
         android:enableOnBackInvokedCallback="true"
@@ -150,31 +142,5 @@
             android:theme="@style/Theme.ActivityTransparent"
             tools:ignore="DiscouragedApi,LockedOrientationActivity" />
 
-        <!-- TODO: Disabling these components for now until they are properly implemented -->
-        <!--
-        <service android:name=".service.NotificationInterceptorService"
-            android:label="notification listener"
-            android:foregroundServiceType="phoneCall"
-            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
-            android:enabled="false"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.service.notification.NotificationListenerService" />
-            </intent-filter>
-            <meta-data
-                android:name="android.service.notification.default_filter_types"
-                android:value="ongoing|conversations|alerting|silent">
-            </meta-data>
-        </service>
-
-        <receiver
-            android:name=".receiver.CallInterceptorReceiver"
-            android:enabled="false"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.intent.action.PHONE_STATE" />
-            </intent-filter>
-        </receiver>
-        !-->
     </application>
 </manifest>
