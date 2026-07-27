@@ -19,31 +19,27 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.fairphone.spring.launcher.R
-import com.fairphone.spring.launcher.data.model.AppInfo
-import com.fairphone.spring.launcher.data.model.ContactInfo
 import com.fairphone.spring.launcher.data.model.SelectableItem
 import com.fairphone.spring.launcher.ui.FP6Preview
 import com.fairphone.spring.launcher.ui.component.PrimaryButton
-import com.fairphone.spring.launcher.ui.component.SearchBar
+import com.fairphone.spring.launcher.ui.component.search.SearchableItemList
 import com.fairphone.spring.launcher.ui.theme.FairphoneTypography
 import com.fairphone.spring.launcher.ui.theme.SpringLauncherTheme
 import com.fairphone.spring.launcher.util.fakeApp
@@ -52,7 +48,7 @@ import com.fairphone.spring.launcher.util.fakeApp
 fun <T : SelectableItem> ItemSelectorLayout(
     itemList: List<T>,
     selectedItems: List<T>,
-    maxItemCount: Int,
+    searchBarPlaceholderText: String,
     showConfirmButton: Boolean,
     showItemCounter: Boolean,
     showEmptyItemSelectedError: Boolean,
@@ -61,18 +57,12 @@ fun <T : SelectableItem> ItemSelectorLayout(
     onItemDeselected: (T) -> Unit,
     onConfirmItemSelection: () -> Unit,
     modifier: Modifier = Modifier,
+    maxItemCount: Int = 5,
     maxItemCountErrorText: String? = null,
     emptyItemSelectedErrorText: String? = null,
     confirmButtonTextResource: Int = R.string.bt_confirm,
 ) {
-    var filter: String by remember { mutableStateOf("") }
-
-    val filteredItemList = if (filter.isEmpty()) {
-        itemList
-    } else {
-        itemList.filter { it.name.contains(filter, ignoreCase = true) }
-    }
-
+    val selectedIds = remember(selectedItems) { selectedItems.mapTo(mutableSetOf()) { it.id } }
 
     Box(modifier.fillMaxSize()) {
         Column(
@@ -80,54 +70,21 @@ fun <T : SelectableItem> ItemSelectorLayout(
             verticalArrangement = Arrangement.spacedBy(20.dp),
             modifier = Modifier.padding(bottom = 20.dp)
         ) {
-            SearchBar(
-                query = filter,
-                onQueryChange = { filter = it },
-                placeholderText = when (itemList[0]) {
-                    is AppInfo -> {
-                        stringResource(R.string.search_app_info_bar_placeholder)
-                    }
-                    is ContactInfo -> {
-                        stringResource(R.string.search_contact_info_bar_placeholder)
-                    }
-                },
-                modifier = Modifier.padding(horizontal = 20.dp)
-            )
-
-            SelectedItemsRow(
-                selectedItems = selectedItems,
-                onDeletedClick = onItemDeselected,
-            )
-
-            LazyColumn(
-                contentPadding = PaddingValues(vertical = 8.dp),
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(start = 20.dp, end = 20.dp)
-                    .border(
-                        width = 1.dp,
-                        color = MaterialTheme.colorScheme.outline,
-                        shape = RoundedCornerShape(size = 12.dp)
-                    )
-                    .background(
-                        color = MaterialTheme.colorScheme.surface,
-                        shape = RoundedCornerShape(size = 12.dp)
-                    )
-                    .clip(RoundedCornerShape(size = 12.dp))
-            ) {
-                items(
-                    count = filteredItemList.size,
-                    contentType = { index -> filteredItemList[index] },
-                ) { index ->
-                    val item = filteredItemList[index]
-                    val isSelected = item in selectedItems
-
-                    SelectableListItem(
-                        item = item,
-                        isSelected = isSelected,
-                        onClick = { onItemClick(item) },
-                    )
+            SearchableItemList(
+                itemList = itemList,
+                searchBarPlaceholderText = searchBarPlaceholderText,
+                modifier = Modifier.weight(1f),
+                headerContent = {
+                    SelectedItemsRow(selectedItems = selectedItems, onDeletedClick = onItemDeselected)
                 }
+            ) { item ->
+                val isSelected by remember(item.id, selectedIds) {
+                    derivedStateOf { item.id in selectedIds }
+                }
+                SelectableListItem(
+                    item = item,
+                    isSelected = isSelected,
+                    onClick = { onItemClick(item) })
             }
         }
 
@@ -142,15 +99,13 @@ fun <T : SelectableItem> ItemSelectorLayout(
                 showMaxItemSelectedError && maxItemCountErrorText != null -> {
                     ErrorView(errorText = maxItemCountErrorText)
                 }
-
                 showEmptyItemSelectedError && emptyItemSelectedErrorText != null -> {
                     ErrorView(errorText = emptyItemSelectedErrorText)
                 }
-
                 showItemCounter -> {
                     ItemCounter(
                         selectedItemCount = selectedItems.size,
-                        maxItemCount = 5,
+                        maxItemCount = maxItemCount,
                     )
                 }
             }
@@ -225,9 +180,10 @@ fun <T : SelectableItem> SelectedItemsRow(
                     shape = RoundedCornerShape(size = 12.dp)
                 )
         ) {
-            items(selectedItems.size) { index ->
-                val item = selectedItems[index]
-
+            items(
+                items = selectedItems,
+                key = { it.id },
+            ) { item ->
                 SelectedListItem(
                     item = item,
                     onDeleteClick = { onDeletedClick(item) },
@@ -282,7 +238,6 @@ fun ItemSelectorLayout_Preview() {
                 context.fakeApp("test"),
                 context.fakeApp("test4"),
             ),
-            maxItemCount = 5,
             showConfirmButton = true,
             showItemCounter = false,
             showEmptyItemSelectedError = false,
@@ -293,6 +248,7 @@ fun ItemSelectorLayout_Preview() {
             onConfirmItemSelection = {},
             maxItemCountErrorText = "Max item count error",
             emptyItemSelectedErrorText = "Empty item selected error",
+            searchBarPlaceholderText = "Search appsss"
         )
     }
 }

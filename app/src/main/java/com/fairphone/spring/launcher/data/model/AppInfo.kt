@@ -9,9 +9,11 @@
 package com.fairphone.spring.launcher.data.model
 
 import android.graphics.drawable.Drawable
+import androidx.compose.runtime.Immutable
 import com.fairphone.spring.launcher.data.model.protos.LauncherProfileApp
 import com.fairphone.spring.launcher.data.model.protos.launcherProfileApp
 
+@Immutable
 data class AppInfo(
     override val name: String,
     val packageName: String,

@@ -21,6 +21,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.fairphone.spring.launcher.R
 import com.fairphone.spring.launcher.data.model.ContactInfo
 import com.fairphone.spring.launcher.ui.component.selector.ItemSelectorLayout
 
@@ -65,6 +67,7 @@ fun AllowedContactSelectorScreen(
                     showMaxItemSelectedError = false,
                     maxItemCountErrorText = null,
                     emptyItemSelectedErrorText = null,
+                    searchBarPlaceholderText = stringResource(R.string.search_contact_info_bar_placeholder),
                 )
             }
 

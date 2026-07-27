@@ -98,6 +98,7 @@ fun VisibleAppSelectorScreen(
         onConfirmItemSelection = onConfirmAppSelection,
         maxItemCountErrorText = maxAppCountErrorText,
         emptyItemSelectedErrorText = emptyAppSelectedErrorText,
+        searchBarPlaceholderText = stringResource(R.string.search_app_info_bar_placeholder),
     )
 }
 

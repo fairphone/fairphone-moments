@@ -11,8 +11,11 @@ package com.fairphone.spring.launcher.ui.screen.settings.notifications
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import com.fairphone.spring.launcher.R
 import com.fairphone.spring.launcher.ui.FP6Preview
 import com.fairphone.spring.launcher.ui.FP6PreviewDark
 import com.fairphone.spring.launcher.ui.component.switcher.ItemSwitcherLayout
@@ -45,13 +48,16 @@ fun AllowedAppsScreen(
     screenData: AllowedNotificationsAppsScreenData,
     onAllowAppSwitchClick: (String, Boolean) -> Unit
 ) {
-        ItemSwitcherLayout(
-            itemList = screenData.allNotificationApps,
-            selectedItems = screenData.allowedNotificationApps,
-            onItemClick = { app, value ->
-                onAllowAppSwitchClick(app.id, value)
-            }
-        )
+    val selectedItems = remember { screenData.allowedNotificationApps.map { it.id } }
+
+    ItemSwitcherLayout(
+        itemList = screenData.allNotificationApps,
+        isSelected = { id -> id in selectedItems },
+        onItemClick = { app, value ->
+            onAllowAppSwitchClick(app.id, value)
+        },
+        searchBarPlaceholderText = stringResource(R.string.search_app_info_bar_placeholder),
+    )
 }
 
 
@@ -74,7 +80,7 @@ private fun AllowedNotificationsAppsScreen_Preview() {
                     repeatCallEnabled = true,
                 )
             ),
-            onAllowAppSwitchClick = {app, value -> },
+            onAllowAppSwitchClick = { app, value -> },
         )
     }
 }
