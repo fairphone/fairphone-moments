@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -42,6 +43,7 @@ import com.fairphone.spring.launcher.ui.screen.onboarding.OnBoardingScreen
 import com.fairphone.spring.launcher.util.FairphoneWebViewScreen
 import com.fairphone.spring.launcher.util.MOMENTS_DEMO_URL
 import com.fairphone.spring.launcher.util.launchClockApp
+import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import org.koin.androidx.compose.koinViewModel
 
@@ -157,6 +159,7 @@ fun HomeNavigation(
             val viewModel: ModeSwitcherViewModel = koinViewModel()
             val screenState by viewModel.screenState.collectAsStateWithLifecycle()
             val context = LocalContext.current
+            val coroutineScope = rememberCoroutineScope()
 
             val homeEnterTransition = if (showEntryAnimation) {
                 expandVertically(
@@ -195,8 +198,10 @@ fun HomeNavigation(
                                 LauncherSettingsActivity.start(context)
                             },
                             onModeSelected = {
-                                viewModel.updateActiveProfile(it)
-                                navController.navigateUp()
+                                coroutineScope.launch {
+                                    viewModel.updateActiveProfile(it)
+                                    navController.navigateUp()
+                                }
                             },
                             onCancel = {
                                 navController.navigateUp()

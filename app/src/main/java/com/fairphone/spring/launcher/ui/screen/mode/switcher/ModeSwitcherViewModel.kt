@@ -46,7 +46,7 @@ class ModeSwitcherViewModel(
     /**
      * TODO: Add javadoc
      */
-    fun updateActiveProfile(profile: LauncherProfile) = viewModelScope.launch {
+    suspend fun updateActiveProfile(profile: LauncherProfile) {
         setActiveProfileUseCase.execute(profile.id)
     }
 
