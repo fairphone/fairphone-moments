@@ -40,12 +40,10 @@ interface ZenNotificationManager {
  *
  * @param context The application context.
  * @param deviceSoundManager The manager for the device sound settings.
- * @param deviceAppearanceManager The manager for the device appearance settings.
  */
 class ZenNotificationManagerImpl(
     private val context: Context,
     private val deviceSoundManager: DeviceSoundManager,
-    private val deviceAppearanceManager: DeviceAppearanceManager,
 ) : ZenNotificationManager {
 
     companion object {
@@ -67,7 +65,6 @@ class ZenNotificationManagerImpl(
         }
 
         deviceSoundManager.enableDeviceSoundSetting(profile.soundSetting)
-        deviceAppearanceManager.enableBlueLightFilter(profile.blueLightFilterEnabled)
 
         val verifyZenRuleExistsResult = verifyZenRuleExists(profile)
         if (verifyZenRuleExistsResult.isFailure) {
@@ -93,7 +90,6 @@ class ZenNotificationManagerImpl(
             return Result.failure(IllegalStateException("Do Not Disturb access is not granted"))
         }
         deviceSoundManager.disableDeviceSoundSetting()
-        deviceAppearanceManager.disableBlueLightFilter()
 
         val verifyZenRuleExistsResult = verifyZenRuleExists(profile)
         if (verifyZenRuleExistsResult.isFailure) {
@@ -121,7 +117,6 @@ class ZenNotificationManagerImpl(
             return Result.failure(IllegalStateException("Do Not Disturb access is not granted"))
         }
         deviceSoundManager.disableDeviceSoundSetting()
-        deviceAppearanceManager.disableBlueLightFilter()
 
         val results = mutableListOf<Result<String>>()
         try {
@@ -208,6 +203,8 @@ class ZenNotificationManagerImpl(
             )
 
             if (result) {
+                // Calling enableDndInternal so the updated profile settings take effect
+                enableDndInternal(profile.zenRuleId, profile.name)
                 Result.success(profile.zenRuleId)
             } else {
                 Result.failure(Exception("Failed to update automatic zen rule"))

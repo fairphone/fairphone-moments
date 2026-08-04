@@ -10,6 +10,7 @@ package com.fairphone.spring.launcher.domain.usecase
 
 import com.fairphone.spring.launcher.data.repository.LauncherProfileRepository
 import com.fairphone.spring.launcher.domain.usecase.base.UseCase
+import com.fairphone.spring.launcher.util.DeviceAppearanceManager
 import com.fairphone.spring.launcher.util.ZenNotificationManager
 import kotlinx.coroutines.flow.firstOrNull
 
@@ -17,6 +18,7 @@ import kotlinx.coroutines.flow.firstOrNull
  * [UseCase] to enable or disable Do Not Disturb mode for the active profile.
  */
 class ToggleDndUseCase(
+    private val deviceAppearanceManager: DeviceAppearanceManager,
     private val zenNotificationManager: ZenNotificationManager,
     private val profileRepository: LauncherProfileRepository,
 ) : UseCase<Boolean, Unit>() {
@@ -29,6 +31,9 @@ class ToggleDndUseCase(
 
                 val result = zenNotificationManager.enableDnd(activeProfile)
                 if (result.isSuccess) {
+                    deviceAppearanceManager.enableBlueLightFilter(activeProfile.blueLightFilterEnabled)
+
+
                     val zenRuleId = result.getOrThrow()
                     if (zenRuleId != activeProfile.zenRuleId) {
                         profileRepository.updateProfile(
@@ -40,7 +45,11 @@ class ToggleDndUseCase(
                     return Result.failure(result.exceptionOrNull() ?: Exception("Unknown error"))
                 }
             } else {
-                return zenNotificationManager.disableAllDnd()
+                val result = zenNotificationManager.disableAllDnd()
+                if (result.isSuccess) {
+                    deviceAppearanceManager.disableBlueLightFilter()
+                }
+               result
             }
         } catch (e: IllegalStateException) {
             Result.failure(e)
