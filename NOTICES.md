@@ -44,7 +44,7 @@ Libraries and SDKs
   Source: https://developer.android.com/guide/playcore
   License text: https://www.apache.org/licenses/LICENSE-2.0
 
-- Firebase Android SDK (via BoM) including Analytics and Crashlytics
+- Firebase Android SDK (via BoM) including Crashlytics
   License: Apache License 2.0
   Project: https://firebase.google.com/docs/android/setup
   Source: https://github.com/firebase/firebase-android-sdk

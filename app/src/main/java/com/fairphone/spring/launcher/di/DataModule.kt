@@ -15,8 +15,6 @@ import androidx.datastore.dataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStore
-import com.fairphone.spring.launcher.analytics.AnalyticsService
-import com.fairphone.spring.launcher.analytics.FirebaseAnalyticsService
 import com.fairphone.spring.launcher.data.datasource.DeviceContactDataSource
 import com.fairphone.spring.launcher.data.datasource.DeviceContactDataSourceImpl
 import com.fairphone.spring.launcher.data.datasource.MIGRATION_LAUNCHER_PROFILE_APPS
@@ -34,9 +32,6 @@ import com.fairphone.spring.launcher.util.DeviceAppearanceManager
 import com.fairphone.spring.launcher.util.DeviceAppearanceManagerImpl
 import com.fairphone.spring.launcher.util.ZenNotificationManager
 import com.fairphone.spring.launcher.util.ZenNotificationManagerImpl
-import com.google.firebase.Firebase
-import com.google.firebase.FirebaseApp
-import com.google.firebase.analytics.analytics
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.factoryOf
@@ -49,10 +44,6 @@ val dataModule = module {
     singleOf(::DeviceContactDataSourceImpl) { bind<DeviceContactDataSource>() }
     single<ProfileDataSource> { ProfileDataSourceImpl(androidContext().profileDataStore) }
     single<AppPrefs> { AppPrefsImpl(androidContext().appPrefsDataStore) }
-    single {
-        FirebaseApp.initializeApp(get())
-        Firebase.analytics }
-    singleOf(::FirebaseAnalyticsService) { bind<AnalyticsService>() }
     factoryOf(::ZenNotificationManagerImpl) { bind<ZenNotificationManager>() }
     factoryOf(::DeviceAppearanceManagerImpl) { bind<DeviceAppearanceManager>() }
 }

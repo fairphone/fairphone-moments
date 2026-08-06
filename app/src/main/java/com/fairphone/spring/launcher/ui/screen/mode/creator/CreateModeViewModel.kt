@@ -17,8 +17,6 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fairphone.spring.launcher.R
-import com.fairphone.spring.launcher.analytics.AnalyticsEvent
-import com.fairphone.spring.launcher.analytics.AnalyticsService
 import com.fairphone.spring.launcher.data.model.AppInfo
 import com.fairphone.spring.launcher.data.model.CreateLauncherProfile
 import com.fairphone.spring.launcher.data.model.Defaults
@@ -47,7 +45,6 @@ class CreateModeViewModel(
     private val appInfoRepository: AppInfoRepository,
     private val createLauncherProfileUseCase: CreateLauncherProfileUseCase,
     private val setEditedProfileUseCase: SetEditedProfileUseCase,
-    private val analyticsService: AnalyticsService,
 ) : ViewModel() {
 
     var selectedPreset: Preset by mutableStateOf(Preset.Custom)
@@ -197,20 +194,8 @@ class CreateModeViewModel(
             Log.e("App", "Failed to create initial profile", result.exceptionOrNull())
             _createModeState.update { CreateModeState.Error(result.exceptionOrNull()) }
         } else {
-            trackCreateModeEvent()
             _createModeState.update { CreateModeState.Success }
         }
-    }
-
-    private fun trackCreateModeEvent() {
-        analyticsService.trackEvent(
-            AnalyticsEvent.CreateModeEvent(
-                preset = selectedPreset,
-                modeName = profileName,
-                modeId = selectedPreset.id,
-                visibleApps = launcherProfileApps.map { it.packageName }
-            )
-        )
     }
 
     private val _createModeState: MutableStateFlow<CreateModeState> =

@@ -19,7 +19,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.fairphone.spring.launcher.R
 import com.fairphone.spring.launcher.data.model.LauncherColors
-import com.fairphone.spring.launcher.ui.component.ScreenViewTracker
 import com.fairphone.spring.launcher.ui.icons.mode.ModeIcon
 import com.fairphone.spring.launcher.ui.screen.mode.creator.ChooseAppsScreen
 import com.fairphone.spring.launcher.ui.screen.mode.creator.ChooseBackgroundScreen
@@ -53,8 +52,6 @@ fun OnBoardingNavigation(
     onBoardingClose: () -> Unit,
 ) {
     val viewModel: OnBoardingViewModel = koinViewModel()
-
-    ScreenViewTracker(navController = navController)
 
     NavHost(
         navController = navController,

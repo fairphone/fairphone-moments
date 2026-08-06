@@ -33,7 +33,6 @@ import com.fairphone.spring.launcher.activity.LauncherSettingsActivity
 import com.fairphone.spring.launcher.data.model.colors
 import com.fairphone.spring.launcher.data.prefs.UsageMode
 import com.fairphone.spring.launcher.ui.component.LauncherBackground
-import com.fairphone.spring.launcher.ui.component.ScreenViewTracker
 import com.fairphone.spring.launcher.ui.component.SystemUiController
 import com.fairphone.spring.launcher.ui.screen.home.HomeScreen
 import com.fairphone.spring.launcher.ui.screen.home.HomeScreenViewModel
@@ -75,8 +74,6 @@ fun HomeNavigation(
 ) {
     val useDarkTheme = LocalUseDarkTheme.current
     SystemUiController(useDarkIcons = !useDarkTheme)
-
-    ScreenViewTracker(navController = navController)
 
     NavHost(
         navController = navController,
