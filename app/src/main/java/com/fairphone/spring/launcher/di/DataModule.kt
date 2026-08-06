@@ -13,6 +13,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
 import androidx.datastore.dataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStore
 import com.fairphone.spring.launcher.analytics.AnalyticsService
 import com.fairphone.spring.launcher.analytics.FirebaseAnalyticsService
@@ -59,7 +60,10 @@ val dataModule = module {
 /**
  * DataStore used to store App Prefs
  */
-val Context.appPrefsDataStore: DataStore<Preferences> by preferencesDataStore(name = "app_prefs")
+val Context.appPrefsDataStore: DataStore<Preferences> by preferencesDataStore(
+    name = "app_prefs",
+    corruptionHandler = ReplaceFileCorruptionHandler { emptyPreferences() }
+)
 
 /**
  * DataStore used to store LauncherProfiles
