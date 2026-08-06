@@ -12,7 +12,7 @@ deploy:release:apk:gitlab-registry:
   needs:
     - job: build:release
       artifacts: false
-    - job: test:release
+    - job: test
       artifacts: false
     - job: lint:release
       artifacts: false
@@ -44,7 +44,7 @@ deploy:release:bundle:play-store:internal:
   needs:
     - job: build:release:bundle
       artifacts: false
-    - job: test:release
+    - job: test
       artifacts: false
     - job: lint:release
       artifacts: false

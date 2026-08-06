@@ -14,7 +14,7 @@ sign:release:apk:
       artifacts: true
     - job: download:keystore
       artifacts: true
-    - job: test:release
+    - job: test
       artifacts: false
     - job: lint:release
       artifacts: false
@@ -51,7 +51,7 @@ sign:release:bundle:
       artifacts: true
     - job: download:keystore
       artifacts: true
-    - job: test:release
+    - job: test
       artifacts: false
     - job: lint:release
       artifacts: false

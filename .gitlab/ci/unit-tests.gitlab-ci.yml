@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: EUPL-1.2
 
-test:debug:
+test:
   extends: .gradle-android-job
   interruptible: true
   stage: test
@@ -12,7 +12,7 @@ test:debug:
     - job: download:google-services
       artifacts: true
   script:
-    - ./gradlew testDebugUnitTest
+    - ./gradlew testUnitTest
   artifacts:
     reports:
       junit:
@@ -20,21 +20,3 @@ test:debug:
     paths:
       - app/build/test-results/testDebugUnitTest/TEST-*.xml
 
-
-test:release:
-  extends:
-    - .gradle-android-job
-    - .release-rule
-  interruptible: true
-  stage: test
-  needs:
-    - job: download:google-services
-      artifacts: true
-  script:
-    - ./gradlew testReleaseUnitTest
-  artifacts:
-    reports:
-      junit:
-        - app/build/test-results/testReleaseUnitTest/TEST-*.xml
-    paths:
-      - app/build/test-results/testReleaseUnitTest/TEST-*.xml
