@@ -48,6 +48,7 @@ fun DateTime(dateTime: LocalDateTime, onTimeClick: () -> Unit) {
             char(',')
             char(' ')
             day()
+            char(' ')
             monthName(MonthNames.ENGLISH_ABBREVIATED)
         }
         val timeFormat = if (is24HourFormat) {
