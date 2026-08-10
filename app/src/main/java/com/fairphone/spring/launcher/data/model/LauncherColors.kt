@@ -28,6 +28,7 @@ data class LauncherColors(
         val Green = LauncherColors(rightColor = 0xFF0B1410, leftColor = 0xFF14241E)
         val White = LauncherColors(rightColor = 0xFF9DA3AA, leftColor = 0xFFE0DEDC)
         val Black = LauncherColors(rightColor = 0xFF060505, leftColor = 0xFF191715)
+        val Blue = LauncherColors(rightColor = 0xFF192132, leftColor = 0xFF33427C)
 
         val All = listOf(
             Default,
@@ -38,7 +39,8 @@ data class LauncherColors(
             QualityTime,
             Green,
             White,
-            Black
+            Black,
+            Blue
         )
     }
 }

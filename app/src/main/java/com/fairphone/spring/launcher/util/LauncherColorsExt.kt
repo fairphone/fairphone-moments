@@ -13,4 +13,5 @@ import com.fairphone.spring.launcher.data.model.LauncherColors
 fun LauncherColors.areStaticColors(): Boolean =
             this == LauncherColors.Black ||
             this == LauncherColors.White ||
-            this == LauncherColors.Green
+            this == LauncherColors.Green ||
+            this == LauncherColors.Blue

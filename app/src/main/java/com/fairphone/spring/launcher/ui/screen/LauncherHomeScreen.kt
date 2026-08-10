@@ -53,6 +53,7 @@ fun LauncherHomeScreen(
     val useDarkTheme = when (screenState?.activeProfile?.colors()) {
         LauncherColors.Black -> true
         LauncherColors.Green -> true
+        LauncherColors.Blue -> true
         LauncherColors.White -> false
         else -> isSystemInDarkTheme()
     }
