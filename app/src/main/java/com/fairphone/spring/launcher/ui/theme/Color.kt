@@ -110,6 +110,7 @@ val pressedActionButtonStartGradienLight = Color(red = 94, green = 94, blue = 94
 val pressedActionButtonEndGradienLight = Color(red = 255, green = 255, blue = 255, alpha = 30)
 
 val modeButtonBackgroundDark = Color(red = 59, green = 59, blue = 59, alpha = 30)
+val modeButtonColorStaticDarkWallpaper = Color(0x2B979797)
 val actionButtonBackgroundDark = Color(red = 59, green = 59, blue = 59, alpha = 50)
 val actionButtonStrokeDark = Color(0x22CCCCCC)
 val selectedActionButtonBackgroundDark = Color(red = 255, green = 255, blue = 255, alpha = 50)

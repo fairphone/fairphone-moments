@@ -51,6 +51,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.PopupPositionProvider
 import com.fairphone.spring.launcher.R
 import com.fairphone.spring.launcher.data.model.Mock_Profile
+import com.fairphone.spring.launcher.data.model.colors
 import com.fairphone.spring.launcher.data.model.protos.LauncherProfile
 import com.fairphone.spring.launcher.data.prefs.UsageMode
 import com.fairphone.spring.launcher.ui.FP6Preview
@@ -63,6 +64,7 @@ import com.fairphone.spring.launcher.ui.theme.FairphoneTypography
 import com.fairphone.spring.launcher.ui.theme.SpringLauncherTheme
 import com.fairphone.spring.launcher.ui.theme.homeButtonBackgroundDarkColor
 import com.fairphone.spring.launcher.ui.theme.homeButtonBackgroundLightColor
+import com.fairphone.spring.launcher.util.getButtonContainerColor
 import com.fairphone.spring.launcher.util.gradientBorder
 
 @Composable
@@ -79,9 +81,9 @@ fun ColumnScope.CurrentModeButton(
         onTooltipClick = onTooltipClick
     ) { modifier ->
 
-        val surfaceColor = MaterialTheme.colorScheme.surface
+        val buttonColor = activeProfile.colors().getButtonContainerColor()
         val gradientStroke = Brush.verticalGradient(
-            colors = listOf(surfaceColor.copy(alpha = 2f), surfaceColor.copy(alpha = 0.1f))
+            colors = listOf(buttonColor.copy(alpha = 2f), buttonColor.copy(alpha = 0.1f))
         )
         val borderWidth = 1.dp
         val cornerRadius = 12.dp
@@ -89,7 +91,7 @@ fun ColumnScope.CurrentModeButton(
         Button(
             onClick = onModeSwitcherButtonClick,
             colors = ButtonDefaults.outlinedButtonColors(
-                containerColor = MaterialTheme.colorScheme.surface,
+                containerColor = buttonColor,
             ),
             shape = RoundedCornerShape(size = cornerRadius),
             contentPadding = PaddingValues(
