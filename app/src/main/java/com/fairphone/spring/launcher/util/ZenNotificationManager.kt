@@ -33,6 +33,8 @@ interface ZenNotificationManager {
     fun addAutomaticZenRule(profile: LauncherProfile): Result<String>
     suspend fun updateAutomaticZenRule(profile: LauncherProfile): Result<String>
     fun removeAutomaticZenRule(zenRuleId: String): Result<Unit>
+    suspend fun removeAllRules(): Result<Unit>
+    suspend fun getRuleIds(): Set<String>
 }
 
 /**
@@ -241,6 +243,56 @@ class ZenNotificationManagerImpl(
         } catch (e: Exception) {
             Log.e(LOG_TAG, "Failed to remove automatic zen rule for id: $zenRuleId", e)
             Result.failure(e)
+        }
+    }
+
+    /**
+     * Removes all automatic zen rules owned by this package. Each rule is first transitioned to
+     * [Condition.STATE_FALSE] so the device is not left stuck in DND after removal.
+     *
+     * @return a [Result] indicating overall success. Individual failures are logged but do not
+     *         abort the sweep.
+     */
+    override suspend fun removeAllRules(): Result<Unit> {
+        Log.d(LOG_TAG, "Removing all automatic zen rules")
+        if (!context.isDoNotDisturbAccessGranted()) {
+            return Result.success(Unit)
+        }
+
+        val failures = mutableListOf<String>()
+        try {
+            withContext(Dispatchers.Main) {
+                context.notificationManager().automaticZenRules.forEach { (ruleId, rule) ->
+                    setAutomaticZenRuleState(ruleId, rule.name, Condition.STATE_FALSE)
+                    try {
+                        val removed = context.notificationManager().removeAutomaticZenRule(ruleId)
+                        if (!removed) failures += ruleId
+                    } catch (e: Exception) {
+                        Log.e(LOG_TAG, "Failed to remove zen rule $ruleId", e)
+                        failures += ruleId
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(LOG_TAG, "Failed to enumerate zen rules for removal", e)
+            return Result.failure(e)
+        }
+        return if (failures.isEmpty()) {
+            Result.success(Unit)
+        } else {
+            Result.failure(Exception("Failed to remove ${failures.size} automatic zen rules"))
+        }
+    }
+
+    /**
+     * Returns the set of automatic zen rule IDs owned by this package.
+     */
+    override suspend fun getRuleIds(): Set<String> {
+        if (!context.isDoNotDisturbAccessGranted()) {
+            return emptySet()
+        }
+        return withContext(Dispatchers.Main) {
+            context.notificationManager().automaticZenRules.keys.toSet()
         }
     }
 

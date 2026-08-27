@@ -14,7 +14,7 @@ import androidx.annotation.VisibleForTesting
 import com.fairphone.spring.launcher.di.dataModule
 import com.fairphone.spring.launcher.di.domainModule
 import com.fairphone.spring.launcher.di.uiModule
-import com.fairphone.spring.launcher.domain.usecase.profile.InitializeSpringLauncherUseCase
+import com.fairphone.spring.launcher.domain.usecase.profile.BootstrapSpringLauncherUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
@@ -36,7 +36,7 @@ class App : Application(), KoinComponent {
         )
     }
 
-    private val initializeSpringLauncherUseCase: InitializeSpringLauncherUseCase by inject()
+    private val bootstrapSpringLauncherUseCase: BootstrapSpringLauncherUseCase by inject()
     private lateinit var applicationScope: CoroutineScope
 
     override fun onCreate() {
@@ -54,7 +54,7 @@ class App : Application(), KoinComponent {
     private fun initApp(context: Context) {
         applicationScope = MainScope()
         applicationScope.launch {
-            initializeSpringLauncherUseCase.execute(Unit)
+            bootstrapSpringLauncherUseCase.execute(Unit)
         }
     }
 

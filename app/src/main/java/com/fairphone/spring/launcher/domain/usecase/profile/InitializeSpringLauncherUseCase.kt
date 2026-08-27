@@ -16,6 +16,7 @@ import com.fairphone.spring.launcher.data.model.LauncherColors
 import com.fairphone.spring.launcher.data.model.protos.LauncherProfile
 import com.fairphone.spring.launcher.data.model.protos.launcherProfileApp
 import com.fairphone.spring.launcher.domain.usecase.base.UseCase
+import com.fairphone.spring.launcher.util.ZenNotificationManager
 import com.fairphone.spring.launcher.util.isDoNotDisturbAccessGranted
 import kotlinx.coroutines.flow.first
 
@@ -23,6 +24,7 @@ class InitializeSpringLauncherUseCase(
     private val context: Context,
     private val createLauncherProfileUseCase: CreateLauncherProfileUseCase,
     private val getAllProfilesUseCase: GetAllProfilesUseCase,
+    private val zenNotificationManager: ZenNotificationManager,
 ) : UseCase<Unit, LauncherProfile>() {
 
     override suspend fun execute(params: Unit): Result<LauncherProfile> {
@@ -32,8 +34,10 @@ class InitializeSpringLauncherUseCase(
         }
 
         if (context.isDoNotDisturbAccessGranted()) {
-            val result = createDefaultProfile(context)
+            // First, remove all existing rules
+            zenNotificationManager.removeAllRules()
 
+            val result = createDefaultProfile(context)
             return result
         } else {
             return Result.failure(IllegalStateException("DND permission not granted"))

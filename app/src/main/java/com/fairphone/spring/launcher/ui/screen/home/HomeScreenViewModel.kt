@@ -17,8 +17,8 @@ import com.fairphone.spring.launcher.data.model.protos.LauncherProfile
 import com.fairphone.spring.launcher.data.prefs.AppPrefs
 import com.fairphone.spring.launcher.data.prefs.UsageMode
 import com.fairphone.spring.launcher.data.repository.AppInfoRepository
+import com.fairphone.spring.launcher.domain.usecase.profile.BootstrapSpringLauncherUseCase
 import com.fairphone.spring.launcher.domain.usecase.profile.GetActiveProfileUseCase
-import com.fairphone.spring.launcher.domain.usecase.profile.InitializeSpringLauncherUseCase
 import com.fairphone.spring.launcher.domain.usecase.profile.SetApplicationUsageModeUseCase
 import com.fairphone.spring.launcher.util.isDeviceInRetailDemoMode
 import com.fairphone.spring.launcher.util.launchApp
@@ -43,7 +43,7 @@ class HomeScreenViewModel(
     private val setApplicationUsageModeUseCase: SetApplicationUsageModeUseCase,
     private val appPrefs: AppPrefs,
     private val appInfoRepository: AppInfoRepository,
-    private val initializeSpringLauncherUseCase: InitializeSpringLauncherUseCase,
+    private val bootstrapSpringLauncherUseCase: BootstrapSpringLauncherUseCase,
 ) : ViewModel() {
 
     private val _dateTime: MutableStateFlow<LocalDateTime> =
@@ -89,7 +89,7 @@ class HomeScreenViewModel(
 
     fun initializeSpringLauncher() {
         viewModelScope.launch {
-            initializeSpringLauncherUseCase.execute(Unit)
+            bootstrapSpringLauncherUseCase.execute(Unit)
         }
     }
 

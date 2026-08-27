@@ -10,6 +10,7 @@ package com.fairphone.spring.launcher.di
 
 import com.fairphone.spring.launcher.domain.usecase.ToggleDndUseCase
 import com.fairphone.spring.launcher.domain.usecase.contacts.GetAllContactsUseCase
+import com.fairphone.spring.launcher.domain.usecase.profile.BootstrapSpringLauncherUseCase
 import com.fairphone.spring.launcher.domain.usecase.profile.CreateLauncherProfileUseCase
 import com.fairphone.spring.launcher.domain.usecase.profile.DeleteLauncherProfileUseCase
 import com.fairphone.spring.launcher.domain.usecase.profile.GetActiveProfileUseCase
@@ -20,9 +21,11 @@ import com.fairphone.spring.launcher.domain.usecase.profile.InitializeSpringLaun
 import com.fairphone.spring.launcher.domain.usecase.profile.SetActiveProfileUseCase
 import com.fairphone.spring.launcher.domain.usecase.profile.SetApplicationUsageModeUseCase
 import com.fairphone.spring.launcher.domain.usecase.profile.SetEditedProfileUseCase
+import com.fairphone.spring.launcher.domain.usecase.profile.SweepOrphanZenRulesUseCase
 import com.fairphone.spring.launcher.domain.usecase.profile.UpdateLauncherProfileUseCase
 import com.fairphone.spring.launcher.util.DeviceSoundManager
 import org.koin.core.module.dsl.factoryOf
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 val domainModule = module {
@@ -35,6 +38,8 @@ val domainModule = module {
     factoryOf(::SetActiveProfileUseCase)
     factoryOf(::SetEditedProfileUseCase)
     factoryOf(::InitializeSpringLauncherUseCase)
+    factoryOf(::SweepOrphanZenRulesUseCase)
+    singleOf(::BootstrapSpringLauncherUseCase)
     factoryOf(::GetAllContactsUseCase)
     factoryOf(::DeleteLauncherProfileUseCase)
     factoryOf(::GetApplicationUsageModeUseCase)
